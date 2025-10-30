@@ -1,0 +1,11 @@
+#!/bin/sh
+
+make clean
+make
+
+clear
+
+qemu-system-i386 \
+    -display none \
+    -kernel build/xfbu.bin \
+    -serial stdio
