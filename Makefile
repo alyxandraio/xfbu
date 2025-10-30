@@ -25,9 +25,9 @@ clean:
 	rm -f xfbu.iso
 	rm -rf build/
 	rm -rf iso_root/
-	rm -rf sources/shoeop/build
-	rm -rf sources/libkernel/build
-	rm -rf sources/xfbu/build
+	rm -rf sources/shoeop/build/
+	rm -rf sources/libkernel/build/
+	rm -rf sources/xfbu/build/
 
 limine/limine:
 	$(MAKE) -C limine/
