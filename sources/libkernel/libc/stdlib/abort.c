@@ -7,7 +7,7 @@ static inline void cpu_halt(void) {
 
 __attribute__((__noreturn__))
 void abort(void) {
-    puts("xfbu: panic!\n");
+    printf("xfbu kernel panic! halt.\n");
     cpu_halt();
     while (1);
     __builtin_unreachable();

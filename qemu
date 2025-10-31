@@ -8,4 +8,5 @@ clear
 qemu-system-i386 \
     -display none \
     -kernel build/xfbu.bin \
-    -serial stdio
+    -serial stdio \
+    -serial pty

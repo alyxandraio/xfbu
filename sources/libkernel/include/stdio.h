@@ -2,6 +2,8 @@
 #define __LIBKERNEL_STDIO_H 1
 
 #include <sys/cdefs.h>
+#include <stddef.h>
+#include <stdbool.h>
 #include <yvals.h>
 
 #define NULL _NULL
@@ -23,5 +25,8 @@
 
 int putchar(int);
 int puts(const char*);
+
+bool print(const char*, size_t);
+int printf(const char* __restrict, ...);
 
 #endif
