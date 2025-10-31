@@ -1,20 +1,21 @@
 #ifndef __LIBKERNEL_STDDEF_H
 #define __LIBKERNEL_STDDEF_H 1
 
-#define _NULL (void*)0
+#import <yvals.h>
+
 #define NULL _NULL
 #define offsetof(T, member) ((_Sizet)&((T*)0)->member)
 
 #ifndef _SIZET
 #define _SIZET 1
-typedef unsigned int size_t;
+typedef _Sizet size_t;
 #endif
 
 #ifndef _WCHART
 #define _WCHART 1
-typedef unsigned short wchar_t;
+typedef _Wchart wchar_t;
 #endif
 
-typedef int ptrdiff_t;
+typedef _Ptrdifft ptrdiff_t;
 
 #endif

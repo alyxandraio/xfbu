@@ -13,7 +13,7 @@ dd CHECKSUM
 section .bss
 align 16
 stack_bottom:
-resb 16384
+resb 16384                      ; 16KiB stack; resb = skip bytes
 stack_top:
 
 section .text
@@ -21,7 +21,10 @@ global _start
 extern kernel_main
 _start:
     mov esp, stack_top
+    push ebx
+    push eax
     call kernel_main
+    add esp, 8                  ; Pop ebx and eax off of the stack (2 * 4 bytes)
     cli
 halt:
     hlt

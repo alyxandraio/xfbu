@@ -2,8 +2,8 @@
 #define __LIBKERNEL_STDIO_H 1
 
 #include <sys/cdefs.h>
+#include <yvals.h>
 
-#define _NULL (void*)0
 #define NULL _NULL
 #define _IOFBF 0
 #define _IOLBF 1
