@@ -16,7 +16,7 @@ void kernel_main(uint32_t magic, uint32_t mbptr) {
     short_to_hex(com1_device, com1_hex_str);
     str_trim_leading_zeroes(com1_hex_str);
 
-    printf("XFBU kernel v%s (com1@%sh)\n", XFBU_VERSION, com1_hex_str);
+    printf("XFBU kernel v%s (com1@%sh)\r\n", XFBU_VERSION, com1_hex_str);
     multiboot_check(magic);
 
     asm_cli();

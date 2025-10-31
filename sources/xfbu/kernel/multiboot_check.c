@@ -9,9 +9,9 @@
 void multiboot_check(uint32_t magic) {
     printf(":: multiboot magic comparison...");
     if (magic == MULTIBOOT_RX_MAGIC)
-        printf(" OK\n");
+        printf(" OK\r\n");
     else {
-        printf(" FAIL\n");
+        printf(" FAIL\r\n");
         abort();
     }
 }

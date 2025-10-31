@@ -5,7 +5,7 @@
 
 __attribute__((__noreturn__))
 void abort(void) {
-    printf("xfbu kernel panic! halt.\n");
+    printf("xfbu kernel panic! halt.\r\n");
     asm_hlt();
     while (1);
     __builtin_unreachable();

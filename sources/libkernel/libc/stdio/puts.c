@@ -5,5 +5,6 @@ int puts(const char* s) {
         unsigned char c = *s++;
         putchar(c);
     }
+    putchar('\r');
     return putchar('\n');
 }
