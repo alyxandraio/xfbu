@@ -1,10 +1,13 @@
 #include <libkernel/serial.h>
-#include <libkernel/util.h>
+#include <libkernel/bda.h>
+#include <libkernel/asm.h>
+
+#include <stdint.h>
 
 void init_serial(uint32_t baud) {
     if (serial_initialized == true) return;
 
-    const uint16_t COM1 = io_port_COM1();
+    const uint16_t COM1 = com1_io_port();
 
     outb(COM1 + 3, 0x00);
     outb(COM1 + 1, 0x00);

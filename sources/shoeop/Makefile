@@ -7,3 +7,4 @@ stage1: $(BUILD_DIR)/shoeop.o
 
 $(BUILD_DIR)/shoeop.o: boot.asm
 	$(ASM) boot.asm $(ASMFLAGS) -o $(BUILD_DIR)/shoeop.o
+	objcopy --prefix-symbols=__ $(BUILD_DIR)/shoeop.o

@@ -17,14 +17,14 @@ resb 16384                      ; 16KiB stack; resb = skip bytes
 stack_top:
 
 section .text
-global _start
+global xfbu_start
 extern kernel_main
-_start:
+xfbu_start:
     mov esp, stack_top
     push ebx
     push eax
     call kernel_main
-    add esp, 8                  ; Pop ebx and eax off of the stack (2 * 4 bytes)
+    add esp, 8
     cli
 halt:
     hlt

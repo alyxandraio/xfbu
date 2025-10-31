@@ -27,10 +27,12 @@ kernel: $(BUILD_DIR)/xfbu.bin
 $(BUILD_DIR)/xfbu/c/%.o: %.c $(HEADERS_C)
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
+	objcopy --prefix-symbols=__ $@
 
 $(BUILD_DIR)/xfbu/asm/%.o: %.asm
 	mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(ASM) $(ASMFLAGS) -o $@ $<
+	objcopy --prefix-symbols=__ $@
 
 $(BUILD_DIR)/xfbu.bin: $(OBJECTS_ASM) $(OBJECTS_C)
 	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) -lgcc -Map $(BUILD_DIR)/xfbu.map

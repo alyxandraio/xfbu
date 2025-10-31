@@ -1,14 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static inline void cpu_halt(void) {
-    __asm__ __volatile__ ("hlt" : : : "memory");
-}
+#include <libkernel/asm.h>
 
 __attribute__((__noreturn__))
 void abort(void) {
     printf("xfbu kernel panic! halt.\n");
-    cpu_halt();
+    asm_hlt();
     while (1);
     __builtin_unreachable();
 }

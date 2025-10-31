@@ -1,4 +1,4 @@
-ENTRY(_start)
+ENTRY(__xfbu_start)
 SECTIONS {
     . = 1M;
     .text BLOCK(4K) : ALIGN(4K) {
