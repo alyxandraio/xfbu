@@ -15,7 +15,9 @@ OBJECTS_C=$(patsubst %.c, $(BUILD_DIR)/shoeop/c/%.o, $(SOURCES_C))
 OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/shoeop/asm/%.o, $(SOURCES_ASM))
 OBJECTS_LIBKERNEL:=$(shell find $(BUILD_DIR)/libkernel/. -type f -name '*.o' -print)
 
-.PHONY: stage1
+.PHONY: stage1 all
+
+all: stage1
 
 stage1: $(OBJECTS_ASM) $(OBJECTS_C)
 
