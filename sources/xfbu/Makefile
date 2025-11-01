@@ -18,7 +18,7 @@ SOURCES_ASM:=$(shell find . -type f -name '*.asm' -print)
 OBJECTS_C=$(patsubst %.c, $(BUILD_DIR)/xfbu/c/%.o, $(SOURCES_C))
 OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/xfbu/asm/%.o, $(SOURCES_ASM))
 OBJECTS_LIBKERNEL:=$(shell find $(BUILD_DIR)/libkernel/. -type f -name '*.o' -print)
-OBJECTS_SHOEOP=$(BUILD_DIR)/shoeop.o
+OBJECTS_SHOEOP:=$(shell find $(BUILD_DIR)/shoeop/. -type f -name '*.o' -print)
 
 .PHONY: kernel
 
