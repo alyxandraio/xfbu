@@ -4,5 +4,6 @@
 #include <stdint.h>
 
 void io_wait(void);
+void str_trim_leading_zeroes(char*);
 
 #endif

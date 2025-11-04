@@ -7,4 +7,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void kernel_main(uint32_t mbptr) {}
+void kernel_main(uint32_t mbaddr) {
+    multiboot_info_t* mbi = (multiboot_info_t*) mbaddr;
+
+    printf(":: testing new kernel panic routine...\n");
+    abort();
+}

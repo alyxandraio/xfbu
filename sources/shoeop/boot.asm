@@ -13,7 +13,10 @@ dd FLAGS
 dd CHECKSUM
 
 section .bss
-align 16
+align 4096
+global stack_bottom
+global stack_top
+
 stack_bottom:
 resb 16384                      ; 16KiB stack; resb = skip bytes
 stack_top:
@@ -68,7 +71,7 @@ xfbu_start:
     push eax
     call multiboot_check
     add esp, 4
-    
+
     call gdt_load
 
     push ebx

@@ -13,9 +13,18 @@ OBJECTS_C=$(patsubst %.c, $(BUILD_DIR)/libkernel/c/%.o, $(SOURCES_C))
 SOURCES_ASM:=$(shell find . -type f -name '*.asm' -print)
 OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/libkernel/asm/%.o, $(SOURCES_ASM))
 
+NOW:=$(shell date '+%Y-%m-%d %H:%M:%S')
+CCVERSION:=$(shell $(CC) --version | head -n1)
+
+.PHONY: libkernel compilerinforeplace
+
 libkernel: $(OBJECTS_C) $(OBJECTS_ASM)
 
-$(BUILD_DIR)/libkernel/c/%.o: %.c
+compilerinforeplace:
+	sed -i '4s/.*/const char* XFBU_COMPILER = "$(CCVERSION)";/' version/xfbu_compiler.c
+	sed -i '4s/.*/const char* XFBU_COMPILATION_DATE = "$(NOW)";/' version/xfbu_compilation_date.c
+
+$(BUILD_DIR)/libkernel/c/%.o: %.c compilerinforeplace
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 	objcopy --prefix-symbols=__ $@

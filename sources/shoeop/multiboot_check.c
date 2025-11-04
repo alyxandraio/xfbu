@@ -1,5 +1,3 @@
-#include <libkernel/shoeop.h>
-
 #include <libkernel/multiboot.h>
 
 #include <stdint.h>
