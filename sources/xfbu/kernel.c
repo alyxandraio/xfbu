@@ -1,4 +1,4 @@
-#include <kernel.h>
+#include <xfbu/kernel.h>
 
 #include <libkernel/multiboot.h>
 #include <libkernel/asm.h>
@@ -10,8 +10,6 @@
 #include <stdio.h>
 
 void kernel_main(uint32_t mbaddr) {
-    multiboot_info_t* mbi = (multiboot_info_t*) mbaddr;
+    multiboot_info_t* mbi = (multiboot_info_t*) (uintptr_t) mbaddr;
 
-    printf(":: testing new kernel panic routine...\n");
-    abort();
 }

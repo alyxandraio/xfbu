@@ -9,7 +9,7 @@ CC=/home/alyxandra/opt/cross/bin/i686-elf-gcc
 CFLAGS=-ffreestanding -nostdlib -std=c99 -g -I ../libkernel/include -I ./include -I $(abspath $(LIB_DIR))
 
 LD=/home/alyxandra/opt/cross/bin/i686-elf-ld
-LDFLAGS=-T linker-i386.ld -nostdlib -L $(LIBGCC_PATH)
+LDFLAGS=-T i386.ld -nostdlib -L $(LIBGCC_PATH)
 
 HEADERS_C:=$(shell find . -type f -name '*.h' -print)
 SOURCES_C:=$(shell find . -type f -name '*.c' -print)
