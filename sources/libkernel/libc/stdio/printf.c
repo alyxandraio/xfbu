@@ -79,13 +79,12 @@ int printf(const char* restrict format, ...) {
                     break;
                 case 'u':
                     uint32_t u_num = va_arg(parameters, int);
-                    const uint8_t width = 11;
-                    char u_buf[width];
-                    for (int i = 0; i < width; i++)
+                    char u_buf[11];
+                    for (int i = 0; i < 11; i++)
                         u_buf[i] = '\0';
                     printf_ubasehelper(u_num, u_buf, 10, 0);
                     int nullb = strlen(u_buf);
-                    char u_buf_reversed[width];
+                    char u_buf_reversed[11];
                     for (int i = 1; i <= nullb; i++)
                         u_buf_reversed[nullb-i] = u_buf[i-1];
                     u_buf_reversed[nullb] = '\0';
@@ -94,6 +93,32 @@ int printf(const char* restrict format, ...) {
                     if (!print(u_buf_reversed, nullb))
                         return -1;
                     written += nullb;
+                    break;
+                // prints hex str for 16-bit (w)ord
+                // non-standard XFBU extension
+                case 'w':
+                    uint16_t w_num = va_arg(parameters, short int);
+                    char w_buf[5];
+                    short_to_hex(w_num, w_buf);
+                    str_trim_leading_zeroes(w_buf);
+                    size_t w_buflen = strlen(w_buf);
+                    if (maxrem < w_buflen)
+                        return -1;
+                    if (!print(w_buf, w_buflen))
+                        return -1;
+                    written += w_buflen;
+                    break;
+                case 'W':
+                    uint16_t W_num = va_arg(parameters, short int);
+                    char W_buf[5];
+                    short_to_hex(W_num, W_buf);
+                    // str_trim_leading_zeroes(W_buf);
+                    size_t W_buflen = strlen(W_buf);
+                    if (maxrem < W_buflen)
+                        return -1;
+                    if (!print(W_buf, W_buflen))
+                        return -1;
+                    written += W_buflen;
                     break;
             }
             format += 2;
