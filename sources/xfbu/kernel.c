@@ -1,3 +1,5 @@
+#include <kernel.h>
+
 #include <libkernel/multiboot.h>
 #include <libkernel/asm.h>
 #include <libkernel/bda.h>
