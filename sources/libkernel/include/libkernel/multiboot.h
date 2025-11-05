@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_MULTIBOOT_H
 #define __LIBKERNEL_MULTIBOOT_H
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 #define MULTIBOOT_TX_MAGIC 0x1BADB002
 #define MULTIBOOT_RX_MAGIC 0x2BADB002

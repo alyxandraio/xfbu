@@ -1,7 +1,7 @@
 #ifndef __XFBU_KERNEL_H
 #define __XFBU_KERNEL_H
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 void kernel_main(uint32_t);
 

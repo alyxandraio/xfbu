@@ -1,10 +1,10 @@
 #ifndef __LIBKERNEL_STDIO_H
 #define __LIBKERNEL_STDIO_H 1
 
-#include <sys/cdefs.h>
-#include <stddef.h>
-#include <stdbool.h>
-#include <yvals.h>
+#include <libkernel/libc/sys/cdefs.h>
+#include <libkernel/libc/stddef.h>
+#include <libkernel/libc/stdbool.h>
+#include <libkernel/libc/yvals.h>
 
 #define NULL _NULL
 #define _IOFBF 0

@@ -1,9 +1,9 @@
 #ifndef __LIBKERNEL_STRING_H
 #define __LIBKERNEL_STRING_H 1
 
-#include <sys/cdefs.h>
+#include <libkernel/libc/sys/cdefs.h>
 
-#include <stddef.h>
+#include <libkernel/libc/stddef.h>
 
 int memcmp(const void*, const void*, size_t);
 void* memcpy(void* __restrict, const void* __restrict, size_t);

@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_ASM_H
 #define __LIBKERNEL_ASM_H
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 uint8_t inb(uint16_t);
 void outb(uint16_t, uint8_t);

@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_STDARG_H
 #define __LIBKERNEL_STDARG_H
 
-#include <yvals.h>
+#include <libkernel/libc/yvals.h>
 
 typedef char* va_list;
 

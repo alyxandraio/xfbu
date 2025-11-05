@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_STDDEF_H
 #define __LIBKERNEL_STDDEF_H 1
 
-#include <yvals.h>
+#include <libkernel/libc/yvals.h>
 
 #define NULL _NULL
 #define offsetof(T, member) ((_Sizet)&((T*)0)->member)

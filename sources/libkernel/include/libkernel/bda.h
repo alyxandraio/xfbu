@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_BDA_H
 #define __LIBKERNEL_BDA_H
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 uint16_t com1_io_port(void);
 

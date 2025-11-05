@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_LIMITS_H
 #define __LIBKERNEL_LIMITS_H
 
-#include <yvals.h>
+#include <libkernel/libc/yvals.h>
 
 #define CHAR_BIT 8
 #define CHAR_MAX 127

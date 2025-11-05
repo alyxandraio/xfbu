@@ -1,7 +1,7 @@
 #ifndef __LIBKERNEL_HEX_H
 #define __LIBKERNEL_HEX_H
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 char trailing_4bits_hex_rightshift(uint8_t, uint8_t);
 char trailing_4bits_hex(uint8_t);

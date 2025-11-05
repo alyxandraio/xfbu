@@ -1,8 +1,8 @@
 #ifndef __LIBKERNEL_SERIAL_H
 #define __LIBKERNEL_SERIAL_H 1
 
-#include <stdint.h>
-#include <stdbool.h>
+#include <libkernel/libc/stdint.h>
+#include <libkernel/libc/stdbool.h>
 
 extern bool serial_initialized;
 extern const uint32_t BAUD_FALLBACK;
