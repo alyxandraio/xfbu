@@ -2,7 +2,7 @@
 
 #include <libkernel/asm.h>
 
-#include <stdio.h>
+#include <libkernel/libc/stdio.h>
 
 __attribute__((__noreturn__))
 void panic(void) {

@@ -21,8 +21,8 @@ CCVERSION:=$(shell $(CC) --version | head -n1)
 libkernel: $(OBJECTS_C) $(OBJECTS_ASM)
 
 compilerinforeplace:
-	sed -i '4s/.*/const char* XFBU_COMPILER = "$(CCVERSION)";/' version/xfbu_compiler.c
-	sed -i '4s/.*/const char* XFBU_COMPILATION_DATE = "$(NOW)";/' version/xfbu_compilation_date.c
+	sed -i '4s/.*/const char* XFBU_COMPILER = "$(CCVERSION)";/' xfbu/version/xfbu_compiler.c
+	sed -i '4s/.*/const char* XFBU_COMPILATION_DATE = "$(NOW)";/' xfbu/version/xfbu_compilation_date.c
 
 $(BUILD_DIR)/libkernel/c/%.o: %.c compilerinforeplace
 	mkdir -p $(@D)

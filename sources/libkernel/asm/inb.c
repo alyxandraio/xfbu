@@ -1,6 +1,6 @@
 #include <libkernel/asm.h>
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 uint8_t inb(uint16_t port) {
     uint8_t ret;

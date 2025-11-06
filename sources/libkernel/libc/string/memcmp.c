@@ -1,4 +1,4 @@
-#include <string.h>
+#include <libkernel/libc/string.h>
 
 int memcmp(const void* s1, const void* s2, size_t n) {
     const unsigned char* su1;

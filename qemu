@@ -10,4 +10,5 @@ qemu-system-i386 \
     -kernel build/xfbu.bin \
     -serial stdio \
     -serial pty \
-    -no-reboot
+    -no-reboot \
+    -m 256M

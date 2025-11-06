@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""
+Count lines of code in .c, .h, .asm files and in Makefiles,
+ignoring anything that lives under ./limine/.
+"""
+
+import os
+from pathlib import Path
+from collections import defaultdict
+
+# File-types we care about: map   matcher → label-to-show
+FILE_TYPES = {
+    '.c'       : 'C source (.c)',
+    '.h'       : 'Header  (.h)',
+    '.asm'     : 'Assembly (.asm)',
+    'Makefile' : 'Makefile',
+}
+
+def classify(path: Path) -> str | None:
+    """
+    Return the FILE_TYPES key that matches this path, or None
+    if the file is not one we are interested in.
+    """
+    if path.name == 'Makefile':
+        return 'Makefile'
+    suffix = path.suffix.lower()
+    return suffix if suffix in {'.c', '.h', '.asm'} else None
+
+
+def count_lines(path: Path) -> int:
+    """Count physical lines in a file (works for any encoding)."""
+    with path.open('rb') as f:
+        return sum(1 for _ in f)
+
+
+def main(root: str = '.') -> None:
+    counts = defaultdict(int)          # lines per file-type
+    total  = 0
+
+    for dirpath, dirnames, filenames in os.walk(root):
+        # Skip everything under ./limine/
+        if Path(dirpath).resolve().parts[-1] == 'limine':
+            dirnames.clear()           # do not descend further
+            continue
+
+        for fname in filenames:
+            fpath = Path(dirpath) / fname
+            key = classify(fpath)
+            if key is None:
+                continue
+
+            n = count_lines(fpath)
+            counts[key] += n
+            total += n
+
+    # ----- Output ----------------------------------------------------------
+    if not counts:
+        print('No matching source files found.')
+        return
+
+    # Print in a stable, readable order
+    order = ['C source (.c)', 'Header  (.h)', 'Assembly (.asm)', 'Makefile']
+    for label in order:
+        # find the key used in counts that maps to this label
+        key = next((k for k, v in FILE_TYPES.items() if v == label), None)
+        if key and key in counts:
+            print(f'{label:<15}: {counts[key]:>8,} lines')
+
+    print('-' * 30)
+    print(f'Grand total      : {total:>8,} lines')
+
+
+if __name__ == '__main__':
+    main()
+

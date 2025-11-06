@@ -2,7 +2,7 @@
 #include <libkernel/bda.h>
 #include <libkernel/asm.h>
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 void init_serial(uint32_t baud) {
     if (serial_initialized == true) return;

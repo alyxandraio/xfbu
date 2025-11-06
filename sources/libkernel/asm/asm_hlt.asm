@@ -6,4 +6,3 @@ asm_hlt:
 .asm_hlt_internal:
     hlt
     jmp .asm_hlt_internal
-    ret

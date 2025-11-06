@@ -60,6 +60,8 @@ gdt_desc:
 global xfbu_start
 extern xfbu_header_tx
 extern multiboot_check
+extern multiboot_init
+extern heap_init
 extern kernel_main
 xfbu_start:
     mov esp, stack_top
@@ -72,13 +74,17 @@ xfbu_start:
     call multiboot_check
     add esp, 4
 
-    call gdt_load
-
     push ebx
-    call kernel_main
+    call multiboot_init
     add esp, 4
 
+    call heap_init
+
+    call gdt_load
+
+    call kernel_main
+
     cli
-.halt:
+.shoeop_halt:
     hlt
-    jmp .halt
+    jmp .shoeop_halt

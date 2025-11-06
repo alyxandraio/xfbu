@@ -1,8 +1,9 @@
-#include <stdarg.h>
-#include <stdio.h>
-#include <string.h>
-#include <limits.h>
-#include <stdint.h>
+#include <libkernel/libc/stdio.h>
+
+#include <libkernel/libc/stdarg.h>
+#include <libkernel/libc/string.h>
+#include <libkernel/libc/limits.h>
+#include <libkernel/libc/stdint.h>
 
 #include <libkernel/hex.h>
 #include <libkernel/util.h>
@@ -119,6 +120,17 @@ int printf(const char* restrict format, ...) {
                     if (!print(W_buf, W_buflen))
                         return -1;
                     written += W_buflen;
+                    break;
+                case 'b':
+                    bool b = va_arg(parameters, _Bool);
+                    char b_buf[6];
+                    strcpy(b_buf, b ? "true" : "false");
+                    size_t b_buflen = strlen(b_buf);
+                    if (maxrem < b_buflen)
+                        return -1;
+                    if (!print(b_buf, b_buflen))
+                        return -1;
+                    written += b_buflen;
                     break;
             }
             format += 2;

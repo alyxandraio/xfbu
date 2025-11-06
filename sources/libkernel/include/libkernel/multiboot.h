@@ -2,6 +2,7 @@
 #define __LIBKERNEL_MULTIBOOT_H
 
 #include <libkernel/libc/stdint.h>
+#include <libkernel/libc/stdbool.h>
 
 #define MULTIBOOT_TX_MAGIC 0x1BADB002
 #define MULTIBOOT_RX_MAGIC 0x2BADB002
@@ -72,5 +73,10 @@ struct multiboot_info {
 } __attribute__((packed));
 
 typedef struct multiboot_info multiboot_info_t;
+
+extern multiboot_info_t* mbi;
+
+extern bool multiboot_valid;
+extern bool multiboot_mem_valid;
 
 #endif

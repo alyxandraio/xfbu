@@ -3,6 +3,6 @@
 
 #include <libkernel/libc/stdint.h>
 
-void kernel_main(uint32_t);
+void kernel_main(void);
 
 #endif

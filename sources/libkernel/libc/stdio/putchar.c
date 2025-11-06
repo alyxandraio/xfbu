@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <libkernel/libc/stdio.h>
+
 #include <libkernel/serial.h>
 
 int putchar(int ci) {

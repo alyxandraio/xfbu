@@ -1,9 +1,9 @@
-#include <stdio.h>
+#include <libkernel/libc/stdio.h>
 
 void gdt_preprint(void) {
-    printf(":: initialising GDT...");
+    printf(":: GDT initialisation...");
 }
 
 void gdt_postprint(void) {
-    printf(" OK\r\n");
+    printf(" OK\n");
 }

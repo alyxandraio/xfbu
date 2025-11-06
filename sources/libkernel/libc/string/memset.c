@@ -1,4 +1,4 @@
-#include <string.h>
+#include <libkernel/libc/string.h>
 
 void* memset(void* s, int c, size_t n) {
     const unsigned char uc = c;

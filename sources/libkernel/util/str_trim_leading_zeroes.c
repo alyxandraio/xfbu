@@ -1,6 +1,6 @@
 #include <libkernel/util.h>
 
-#include <string.h>
+#include <libkernel/libc/string.h>
 
 void str_trim_leading_zeroes(char* str) {
     int trim = 0;

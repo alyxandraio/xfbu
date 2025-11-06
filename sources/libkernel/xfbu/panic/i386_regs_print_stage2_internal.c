@@ -2,8 +2,8 @@
 
 #include <libkernel/xfbu/version.h>
 
-#include <stdint.h>
-#include <stdio.h>
+#include <libkernel/libc/stdint.h>
+#include <libkernel/libc/stdio.h>
 
 struct i386_registers {
     uint32_t esp;

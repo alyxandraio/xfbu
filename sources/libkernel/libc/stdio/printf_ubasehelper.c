@@ -1,6 +1,6 @@
-#include <stdio.h>
+#include <libkernel/libc/stdio.h>
 
-#include <stdint.h>
+#include <libkernel/libc/stdint.h>
 
 // pass zero to pass_zero (go figure)
 void printf_ubasehelper(uint32_t u, char* s, uint32_t base, int pass_zero) {
