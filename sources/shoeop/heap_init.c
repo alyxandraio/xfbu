@@ -1,5 +1,6 @@
 #include <libkernel/multiboot.h>
 #include <libkernel/heap.h>
+#include <libkernel/asm.h>
 
 #include <libkernel/libc/stdint.h>
 #include <libkernel/libc/stdlib.h>
@@ -30,15 +31,17 @@ void heap_init(void) {
     // turn interrupts back on at the end of the function
     asm_cli();
     heap_valid = true;
-    alloc_pool = malloc(alloc_pool_size);
-    alloc_pool_lengths = malloc(alloc_pool_size);
-    alloc_vectors = malloc(alloc_vectors_size);
-    free_vectors = malloc(free_vectors_size);
+    alloc_pool = (vplist_t*) new_u32l(alloc_pool_size);
+    alloc_pool_lengths = (sizelist_t*) new_u32l(alloc_pool_size);
+    alloc_vectors = (sizelist_t*) new_u32l(alloc_vectors_size);
+    free_vectors = (sizelist_t*) new_u32l(free_vectors_size);
 
-    if (!alloc_pool || !alloc_vectors || !free_vectors) {
+    if (!alloc_pool || !alloc_pool_lengths
+        ||!alloc_vectors || !free_vectors) {
         heap_valid = false;
         print(s2, strlen(s2));
         abort();
     }
     printf(" OK\n");
+    internal_heap_vector = heap_vector;
 }

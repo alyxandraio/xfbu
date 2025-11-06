@@ -18,7 +18,7 @@ global stack_bottom
 global stack_top
 
 stack_bottom:
-resb 16384                      ; 16KiB stack; resb = skip bytes
+resb 65536                      ; 64KiB stack; resb = skip bytes
 stack_top:
 
 section .text

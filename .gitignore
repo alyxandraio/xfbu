@@ -2,6 +2,7 @@ build/
 iso_root/
 
 xfbu.iso
+.xfbu_binary_size
 
 *.o
 *.d

@@ -1,3 +1,3 @@
 #include <libkernel/heap.h>
 
-void** alloc_pool = (void**) 0;
+vplist_t* alloc_pool;

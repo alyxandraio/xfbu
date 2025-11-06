@@ -1,14 +1,17 @@
 #ifndef __LIBKERNEL_ARRAY_H
 #define __LIBKERNEL_ARRAY_H 1
 
-typedef (uint32_t*) u32list_t;
+#include <libkernel/libc/stddef.h>
+#include <libkernel/libc/stdlib.h>
+#include <libkernel/libc/stdint.h>
 
-void append_u32l(u32list_t, uint32_t);
-void remove_u32l(u32list_t, uint32_t, size_t);
-void remove_at_u32l(u32list_t, size_t);
-void insert_u32l(u32list_t, uint32_t, size_t);
-void pop_u32l(u32list_t, size_t);
-void set_u32l(u32list_t, uint32_t, size_t);
-uint32_t get_u32l(u32list_t, size_t);
+// *list_t types guarantee no gaps in the
+// underlying structure residing in memory,
+// loosely similar to __attribute__((packed))
+
+#include <libkernel/array/u32list.h>
+#include <libkernel/array/vplist.h>
+#include <libkernel/array/vpplist.h>
+#include <libkernel/array/sizelist.h>
 
 #endif

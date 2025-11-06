@@ -7,7 +7,7 @@ clear
 
 qemu-system-i386 \
     -display none \
-    -kernel build/xfbu.bin \
+    -cdrom ./xfbu.iso \
     -serial stdio \
     -serial pty \
     -no-reboot \

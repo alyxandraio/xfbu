@@ -5,7 +5,13 @@
 #include <libkernel/xfbu/panic.h>
 #include <libkernel/asm.h>
 
+// libc abort is not normally non-returning,
+// but kernelspace abort runs panic, which is
+// non-returning; userspace libc abort will return
+__attribute__((__noreturn__))
 void abort(void) {
-    // if we're in kernel space ...
     panic();
+    asm_hlt();
+    while (1);
+    __builtin_unreachable();
 }

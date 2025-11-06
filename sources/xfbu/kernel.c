@@ -18,4 +18,6 @@ void kernel_main(void) {
     char* s2 = malloc(27);
     printf(":: malloc test 0x%p 0x%p\n", (void*) s1, (void*) s2);
     printf(":: mbi 0x%p\n", (void*) mbi);
+    printf(":: testing kernel panic routine...\n");
+    abort();
 }
