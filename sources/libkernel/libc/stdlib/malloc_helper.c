@@ -9,6 +9,12 @@
 #include <libkernel/heap.h>
 #include <libkernel/hex.h>
 
+// INFO: THE ISSUE WITH THE +2 LENGTH OFFSET
+// IS THAT THE MALLOC STRUCTURE INIT ROUTINE
+// USES MALLOC FOR EACH OF THE TWO NEEDED
+// HEAP STRUCTURES, THE FIX LIES IN WRITING
+// A PRE-HEAP NEW_U32L FUNCTION
+
 void* malloc_helper(size_t bytes) {
     void* heap_mem = heap_ptr + heap_vector;
     heap_vector += bytes;
