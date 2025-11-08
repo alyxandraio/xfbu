@@ -67,6 +67,15 @@ xfbu_start:
     mov esp, stack_top
 
     push eax
+    mov eax, 3405691582
+    mov dr0, eax
+    mov eax, 3735928559
+    mov dr1, eax
+
+    mov eax, cr0
+    or eax, 1
+    mov cr0, eax
+
     call xfbu_header_tx
     pop eax
 

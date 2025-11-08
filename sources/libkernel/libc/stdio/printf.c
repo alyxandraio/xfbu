@@ -6,12 +6,18 @@
 #include <libkernel/libc/stdint.h>
 #include <libkernel/libc/stdlib.h>
 
-#include <libkernel/hex.h>
 #include <libkernel/util.h>
+#include <libkernel/heap.h>
+#include <libkernel/hex.h>
+
+#include <xfbu/panic.h>
 
 extern void printf_ubasehelper(uint32_t, char*, uint32_t, int);
 
 int printf(const char* restrict format, ...) {
+    if (!heap_valid)
+        panic("__printf: heap invalid");
+
     va_list parameters;
     va_start(parameters, format);
 
@@ -85,12 +91,12 @@ int printf(const char* restrict format, ...) {
                 case 'u':
                     uint32_t u_num = va_arg(parameters, int);
                     char* u_buf = malloc(11);
-                    for (int i = 0; i < 11; i++)
+                    for (int i = 0; i < 11; i += 1)
                         u_buf[i] = '\0';
                     printf_ubasehelper(u_num, u_buf, 10, 0);
                     int nullb = strlen(u_buf);
                     char* u_buf_reversed = malloc(11);
-                    for (int i = 1; i <= nullb; i++)
+                    for (int i = 1; i <= nullb; i += 1)
                         u_buf_reversed[nullb-i] = u_buf[i-1];
                     u_buf_reversed[nullb] = '\0';
                     if (maxrem < nullb)
@@ -162,7 +168,7 @@ int printf(const char* restrict format, ...) {
 
         size_t amount = 1;
         while (format[amount] && format[amount] != '%')
-            amount++;
+            amount += 1;
         if (maxrem < amount)
             return -1;
         if (!print(format, amount))
