@@ -36,8 +36,8 @@ xfbu.iso: clean limine/limine libkernel bootloader xfbu
 	rm -rf iso_root
 	mkdir -p iso_root/boot/limine
 	mkdir -p iso_root/EFI/BOOT
-	cp -v build/xfbu.bin iso_root/boot/
-	mv iso_root/boot/xfbu.bin iso_root/boot/xfbu
+	cp -v build/xfbu.elf iso_root/boot/
+	mv iso_root/boot/xfbu.elf iso_root/boot/xfbu
 	cp -v limine.conf iso_root/boot/limine
 	cp -v limine/limine-bios.sys limine/limine-bios-cd.bin limine/limine-uefi-cd.bin iso_root/boot/limine/
 	cp -v limine/BOOTIA32.EFI iso_root/EFI/BOOT

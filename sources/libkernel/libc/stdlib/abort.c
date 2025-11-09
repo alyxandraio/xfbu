@@ -2,6 +2,7 @@
 
 #include <libkernel/libc/stdio.h>
 
+#include <libkernel/heap.h>
 #include <libkernel/asm.h>
 
 #include <xfbu/panic.h>

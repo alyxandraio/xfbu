@@ -26,20 +26,6 @@ void free(void* ptr) {
 
     size_t leading_idx = UINT_MAX;
     size_t trailing_idx = UINT_MAX;
-    char s1[9];
-    char s2[9];
-    char s3[9];
-    const char* s4 = "\r\n";
-    int_to_hex(alloc_pool->vector, &s1[0]);
-    int_to_hex(alloc_pool_lengths->vector, &s2[0]);
-    int_to_hex(pool_idx, &s3[0]);
-    print(s4, strlen(s4));
-    print(s1, strlen(s1));
-    print(s4, strlen(s4));
-    print(s2, strlen(s2));
-    print(s4, strlen(s4));
-    print(s3, strlen(s3));
-    print(s4, strlen(s4));
     size_t ptr_bytes = (size_t) get_u32l((u32list_t*) alloc_pool_lengths, pool_idx);
     for (size_t i = 0; i < free_vectors->vector; i += 1) {
         size_t idx = (size_t) get_u32l((u32list_t*) free_vectors, i);
@@ -48,9 +34,9 @@ void free(void* ptr) {
 
         // mutually exclusive
         if (mem + bytes == ptr)
-            leading_idx = idx;
+            leading_idx = i;
         if (ptr + ptr_bytes == mem)
-            trailing_idx = idx;
+            trailing_idx = i;
     }
     if (leading_idx != UINT_MAX && trailing_idx != UINT_MAX) {
         // set the length of the leading allocation to
@@ -93,23 +79,52 @@ void free(void* ptr) {
         remove_at_u32l((u32list_t*) alloc_vectors, avec_idx);
         goto find_largest_free_region;
     }
+    if (trailing_idx != UINT_MAX) {
+        size_t trailing_len = (size_t) get_u32l((u32list_t*) alloc_pool_lengths,
+            get_u32l((u32list_t*) free_vectors, trailing_idx));
+        set_u32l((u32list_t*) alloc_pool_lengths,
+            ptr_bytes + trailing_len,
+            pool_idx);
+        remove_at_u32l((u32list_t*) alloc_pool,
+            get_u32l((u32list_t*) free_vectors, trailing_idx));
+        remove_at_u32l((u32list_t*) alloc_pool_lengths,
+            get_u32l((u32list_t*) free_vectors, trailing_idx));
+        revalidate_indices_postremoval(get_u32l((u32list_t*) free_vectors, trailing_idx));
+        remove_at_u32l((u32list_t*) alloc_vectors, avec_idx);
+        remove_at_u32l((u32list_t*) free_vectors, trailing_idx);
+        append_u32l((u32list_t*) free_vectors,
+            unsafefind_u32l((u32list_t*) alloc_pool, (uint32_t) ptr));
+        goto find_largest_free_region;
+    }
     // no adjacent free memory :(
     remove_at_u32l((u32list_t*) alloc_vectors, avec_idx);
     append_u32l((u32list_t*) free_vectors, pool_idx);
     if (ptr_bytes > largest_free_region_size) {
         largest_free_region_size = ptr_bytes;
-        largest_free_region_index = pool_idx;
+        largest_free_region_index = unsafefind_u32l((u32list_t*) free_vectors, pool_idx);
+        return;
     }
 
     find_largest_free_region:
+    if (free_vectors->vector == 0) {
+        largest_free_region_index = UINT_MAX;
+        largest_free_region_size = 0;
+        return;
+    }
+    if (free_vectors->vector == 1) {
+        largest_free_region_index = 0;
+        largest_free_region_size = (size_t) get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, 0));
+    }
     push_u32l((u32list_t*) alloc_pool_lengths, 0);
-    size_t max_index = alloc_pool_lengths->vector - 1;
+    push_u32l((u32list_t*) free_vectors, alloc_pool_lengths->vector - 1);
+    size_t max_index = free_vectors->vector - 1;
     for (size_t i = 0; i < free_vectors->vector - 1; i += 1)
-        if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, max_index))
+        if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index)))
             max_index = i;
-    if (max_index == alloc_pool_lengths->vector - 1)
+    if (max_index == free_vectors->vector - 1)
         panic("__free: did not find free region of memory larger than 0");
     pop_u32l((u32list_t*) alloc_pool_lengths);
+    pop_u32l((u32list_t*) free_vectors);
     largest_free_region_index = max_index;
-    largest_free_region_size = get_u32l((u32list_t*) alloc_pool_lengths, max_index);
+    largest_free_region_size = get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index));
 }

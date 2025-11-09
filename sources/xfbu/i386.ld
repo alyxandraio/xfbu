@@ -1,6 +1,8 @@
-ENTRY(__xfbu_start)
+ENTRY(__xfbu_entry)
 SECTIONS {
     . = 1M;
+    __xfbu_start = .;
+
     .text BLOCK(4K) : ALIGN(4K) {
         *(.multiboot)
         *(.text)
@@ -15,4 +17,7 @@ SECTIONS {
         *(COMMON)
         *(.bss)
     }
+
+    __xfbu_end = .;
+    PROVIDE(__xfbu_size = __xfbu_end - __xfbu_start);
 }

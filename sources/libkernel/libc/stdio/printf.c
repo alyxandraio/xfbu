@@ -103,8 +103,8 @@ int printf(const char* restrict format, ...) {
                         return -1;
                     if (!print(u_buf_reversed, nullb))
                         return -1;
-                    free(u_buf);
                     free(u_buf_reversed);
+                    free(u_buf);
                     written += nullb;
                     break;
                 // prints hex str for 16-bit (w)ord

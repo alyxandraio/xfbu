@@ -20,13 +20,9 @@ OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/xfbu/asm/%.o, $(SOURCES_ASM))
 OBJECTS_LIBKERNEL:=$(shell find $(BUILD_DIR)/libkernel/. -type f -name '*.o' -print)
 OBJECTS_SHOEOP:=$(shell find $(BUILD_DIR)/shoeop/. -type f -name '*.o' -print)
 
-.PHONY: kernel createsize
+.PHONY: kernel
 
-kernel: $(BUILD_DIR)/xfbu.bin createsize
-
-createsize: $(BUILD_DIR)/xfbu.bin
-	rm -f .xfbu_binary_size
-	echo $(shell wc -c < $(BUILD_DIR)/xfbu.bin) > .xfbu_binary_size
+kernel: $(BUILD_DIR)/xfbu.elf
 
 $(BUILD_DIR)/xfbu/c/%.o: %.c $(HEADERS_C)
 	mkdir -p $(@D)
@@ -38,5 +34,5 @@ $(BUILD_DIR)/xfbu/asm/%.o: %.asm
 	$(ASM) $(ASMFLAGS) -o $@ $<
 	objcopy --prefix-symbols=__ $@
 
-$(BUILD_DIR)/xfbu.bin: $(OBJECTS_ASM) $(OBJECTS_C)
+$(BUILD_DIR)/xfbu.elf: $(OBJECTS_ASM) $(OBJECTS_C)
 	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) -lgcc -Map $(BUILD_DIR)/xfbu.map

@@ -12,9 +12,8 @@
 
 extern void i386_regs_print_stage2_internal_heap_invalid(const i386_registers_t);
 
-// probably asking for trouble with this one
-extern void stack_bottom(void);
-extern void stack_top(void);
+extern uint8_t stack_bottom[];
+extern uint8_t stack_top[];
 
 void i386_regs_print_stage2_internal(const i386_registers_t regs) {
     if (!heap_valid) {
@@ -32,8 +31,8 @@ void i386_regs_print_stage2_internal(const i386_registers_t regs) {
 
     printf("kernel stack:\n");
 
-    const uint8_t* stack_start = (const uint8_t*) (uintptr_t) &stack_bottom;
-    const uint8_t* stack_end = (const uint8_t*) (uintptr_t) &stack_top;
+    const uint8_t* stack_start = (const uint8_t*) &stack_bottom[0];
+    const uint8_t* stack_end = (const uint8_t*) &stack_top;
 
     size_t stack_size = ((size_t) stack_end) - ((size_t) stack_start);
     size_t stack_used = ((size_t) stack_end) - regs.esp;

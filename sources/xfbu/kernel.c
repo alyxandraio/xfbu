@@ -1,5 +1,6 @@
 #include <xfbu/kernel.h>
 
+#include <libkernel/xfbu/info.h>
 #include <libkernel/multiboot.h>
 #include <libkernel/asm.h>
 #include <libkernel/bda.h>
@@ -14,6 +15,7 @@ void kernel_main(void) {
     printf(":: mbi->mem_* valid? %b\n", flags_bit_0);
     printf(":: mbi->mem_lower = 0x%X\n", mbi->mem_lower);
     printf(":: mbi->mem_upper = 0x%X\n", mbi->mem_upper);
+    printf(":: kernel size: %u bytes\n", XFBU_BINARY_SIZE);
     char* s1 = malloc(13);
     char* s2 = malloc(27);
     printf(":: malloc test 0x%p 0x%p\n", (void*) s1, (void*) s2);

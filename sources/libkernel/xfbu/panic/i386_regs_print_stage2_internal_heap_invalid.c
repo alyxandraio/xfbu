@@ -11,14 +11,10 @@
 #include <libkernel/libc/string.h>
 #include <libkernel/libc/stdio.h>
 
-// do not do this i beg of you
-extern void stack_bottom(void);
-extern void stack_top(void);
+extern uint8_t stack_bottom[];
+extern uint8_t stack_top[];
 
 void i386_regs_print_stage2_internal_heap_invalid(const i386_registers_t regs) {
-    if (heap_valid)
-        abort();
-
     const char* s1 = "cpu state:\r\n    eax: 0x";
     const char* s2 = "    ebx: 0x";
     const char* s3 = "    ecx: 0x";

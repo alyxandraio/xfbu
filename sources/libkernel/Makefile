@@ -2,7 +2,7 @@ BUILD_DIR?=build
 
 LIBGCC_PATH=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
 CC=/home/alyxandra/opt/cross/bin/i686-elf-gcc
-CFLAGS=-ffreestanding -nostdlib -std=c99 -O0 -g -I ./include -I ../xfbu/include -I $(abspath $(LIBGCC_PATH))
+CFLAGS=-ffreestanding -nostdlib -std=c99 -g -I ./include -I ../xfbu/include -I $(abspath $(LIBGCC_PATH))
 
 ASM?=nasm
 ASMFLAGS=-f elf
@@ -23,13 +23,9 @@ XFBU_BINARY_SIZE:=$(shell find . -type f -name 'xfbu_binary_size.c' -print)
 
 libkernel: $(OBJECTS_C) $(OBJECTS_ASM)
 
-../xfbu/.xfbu_binary_size:
-	echo '0' > $@
-
-compilerinforeplace: ../xfbu/.xfbu_binary_size
+compilerinforeplace:
 	sed -i '4s/.*/const char* XFBU_COMPILER = "$(CCVERSION)";/' $(XFBU_COMPILER)
 	sed -i '4s/.*/const char* XFBU_COMPILATION_DATE = "$(NOW)";/' $(XFBU_COMPILATION_DATE)
-	sed -i '6s/.*/const size_t XFBU_BINARY_SIZE = $(shell cat ../xfbu/.xfbu_binary_size);/' $(XFBU_BINARY_SIZE)
 
 $(BUILD_DIR)/libkernel/c/%.o: %.c compilerinforeplace
 	mkdir -p $(@D)

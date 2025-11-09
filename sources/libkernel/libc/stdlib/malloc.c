@@ -8,15 +8,11 @@
 #include <libkernel/multiboot.h>
 #include <libkernel/array.h>
 #include <libkernel/heap.h>
+#include <libkernel/hex.h>
 
 #include <xfbu/panic.h>
 
 extern void* malloc_helper(size_t);
-
-// INFO: WHEN YOU REMOVE OR INSERT INTO ALLOC_POOL,
-// ALLOC_VECTORS AND FREE_VECTORS ABOVE
-// THE INDEX AND THE LARGEST_FREE_REGION_*
-// GLOBALS BECOME INVALID !!
 
 // best memory allocator implementation 100% working 2025 /s
 void* malloc(size_t bytes) {
@@ -28,7 +24,7 @@ void* malloc(size_t bytes) {
         panic("__malloc: cannot pass 0");
     if (largest_free_region_size == bytes) {
         void* heap_mem = (void*) get_u32l((u32list_t*) alloc_pool,
-            (size_t) get_u32l((u32list_t*) free_vectors, largest_free_region_index));
+            get_u32l((u32list_t*) free_vectors, largest_free_region_index));
         append_u32l((u32list_t*) alloc_vectors,
             get_u32l((u32list_t*) free_vectors, largest_free_region_index));
         remove_at_u32l((u32list_t*) free_vectors, largest_free_region_index);
@@ -38,47 +34,71 @@ void* malloc(size_t bytes) {
             largest_free_region_size = 0;
             return heap_mem;
         }
-
+        if (free_vectors->vector == 1) {
+            largest_free_region_index = 0;
+            largest_free_region_size = (size_t) get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, 0));
+            return heap_mem;
+        }
         push_u32l((u32list_t*) alloc_pool_lengths, 0);
-        size_t max_index = alloc_pool_lengths->vector - 1;
-        // skip the final free_vectors element, our dummy 0 entry
+        push_u32l((u32list_t*) free_vectors, alloc_pool_lengths->vector - 1);
+        size_t max_index = free_vectors->vector - 1;
         for (size_t i = 0; i < free_vectors->vector - 1; i += 1)
-            if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, max_index))
+            if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index)))
                 max_index = i;
-        if (max_index == alloc_pool_lengths->vector - 1)
+        if (max_index == free_vectors->vector - 1)
             panic("__malloc: did not find free region of memory larger than 0");
         pop_u32l((u32list_t*) alloc_pool_lengths);
+        pop_u32l((u32list_t*) free_vectors);
         largest_free_region_index = max_index;
-        largest_free_region_size = get_u32l((u32list_t*) alloc_pool_lengths, max_index);
+        largest_free_region_size = get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index));
         return heap_mem;
     }
     if (largest_free_region_size > bytes) {
         void* heap_mem = (void*) get_u32l((u32list_t*) alloc_pool,
-            (size_t) get_u32l((u32list_t*) free_vectors, largest_free_region_index));
+            get_u32l((u32list_t*) free_vectors, largest_free_region_index));
         void* newly_freed = heap_mem + bytes;
+        size_t newly_freed_len = largest_free_region_size - bytes;
         append_u32l((u32list_t*) alloc_vectors,
             get_u32l((u32list_t*) free_vectors, largest_free_region_index));
-        set_u32l((u32list_t*) free_vectors,
-            (uint32_t) newly_freed, largest_free_region_index);
         set_u32l((u32list_t*) alloc_pool_lengths,
-            (uint32_t) bytes, get_u32l((u32list_t*) alloc_vectors, largest_free_region_index));
+            (uint32_t) bytes,
+            get_u32l((u32list_t*) alloc_vectors, alloc_vectors->vector - 1));
         insert_u32l((u32list_t*) alloc_pool,
-            (uint32_t) newly_freed, largest_free_region_index + 1);
+            (uint32_t) newly_freed,
+            get_u32l((u32list_t*) free_vectors, largest_free_region_index) + 1);
         insert_u32l((u32list_t*) alloc_pool_lengths,
-            largest_free_region_size - bytes, largest_free_region_index + 1);
-        revalidate_indices_postinsertion(largest_free_region_index + 1);
+            (uint32_t) newly_freed_len,
+            get_u32l((u32list_t*) free_vectors, largest_free_region_index) + 1);
+        revalidate_indices_postinsertion(get_u32l((u32list_t*) free_vectors, largest_free_region_index) + 1);
+        append_u32l((u32list_t*) free_vectors,
+            get_u32l((u32list_t*) free_vectors, largest_free_region_index) + 1);
+        remove_at_u32l((u32list_t*) free_vectors, largest_free_region_index);
 
+        if (free_vectors->vector == 0) {
+            largest_free_region_index = UINT_MAX;
+            largest_free_region_size = 0;
+            return heap_mem;
+        }
+        if (free_vectors->vector == 1) {
+            largest_free_region_index = 0;
+            largest_free_region_size = (size_t) get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, 0));
+            return heap_mem;
+        }
         push_u32l((u32list_t*) alloc_pool_lengths, 0);
-        size_t max_index = alloc_pool_lengths->vector - 1;
+        push_u32l((u32list_t*) free_vectors, alloc_pool_lengths->vector - 1);
+        size_t max_index = free_vectors->vector - 1;
         for (size_t i = 0; i < free_vectors->vector - 1; i += 1)
-            if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, max_index))
+            if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index)))
                 max_index = i;
-        if (max_index == alloc_pool_lengths->vector - 1)
+        if (max_index == free_vectors->vector - 1)
             panic("__malloc: did not find free region of memory larger than 0");
         pop_u32l((u32list_t*) alloc_pool_lengths);
+        pop_u32l((u32list_t*) free_vectors);
         largest_free_region_index = max_index;
-        largest_free_region_size = get_u32l((u32list_t*) alloc_pool_lengths, max_index);
+        largest_free_region_size = get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index));
         return heap_mem;
     }
+    // no free memory to use,
+    // advance the heap vector
     return malloc_helper(bytes);
 }

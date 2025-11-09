@@ -8,8 +8,7 @@
 #include <libkernel/heap.h>
 #include <libkernel/asm.h>
 
-// please never do this lmao
-extern void stack_top(void);
+extern uint8_t stack_top[];
 
 size_t memory_used_bytes(void) {
     size_t memory = 0;
@@ -42,7 +41,7 @@ size_t memory_used_bytes(void) {
     memory += free_vectors->vector;
     memory += heap_vector - internal_heap_vector;
     // add used stack memory
-    const uint8_t* stack_end = (const uint8_t*) (uintptr_t) &stack_top;
+    const uint8_t* stack_end = (const uint8_t*) (uintptr_t) &stack_top[0];
     memory += (size_t) stack_end - reg_esp();
     return memory;
 }

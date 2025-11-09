@@ -57,13 +57,13 @@ gdt_desc:
     dw gdt_end - gdt_start - 1
     dd gdt_start
 
-global xfbu_start
+global xfbu_entry
 extern xfbu_header_tx
 extern multiboot_check
 extern multiboot_init
 extern heap_init
 extern kernel_main
-xfbu_start:
+xfbu_entry:
     mov esp, stack_top
 
     push eax
