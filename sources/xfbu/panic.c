@@ -12,7 +12,7 @@
 __attribute__((__noreturn__))
 void panic(const char* s) {
     asm_cli();
-    const char* s1 = "\r\npanic!\r\n";
+    const char* s1 = "\r\npanic!\r\ncaller ";
     const char* s2 = "\r\n";
     const char* s3 = "\r\nhalt.\r\n";
     print(s1, strlen(s1));

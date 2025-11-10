@@ -1,5 +1,7 @@
 #include <xfbu/kernel.h>
 
+#include <xfbu/panic.h>
+
 #include <libkernel/xfbu/info.h>
 #include <libkernel/multiboot.h>
 #include <libkernel/asm.h>
@@ -21,5 +23,5 @@ void kernel_main(void) {
     printf(":: malloc test 0x%p 0x%p\n", (void*) s1, (void*) s2);
     printf(":: mbi 0x%p\n", (void*) mbi);
     printf(":: testing kernel panic routine...\n");
-    abort();
+    panic("__kernel_main: test of `__panic` function for demonstrative purposes");
 }

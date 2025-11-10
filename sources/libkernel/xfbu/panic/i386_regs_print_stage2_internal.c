@@ -6,6 +6,7 @@
 #include <libkernel/memory.h>
 #include <libkernel/heap.h>
 #include <libkernel/asm.h>
+#include <libkernel/bda.h>
 
 #include <libkernel/libc/stdint.h>
 #include <libkernel/libc/stdio.h>
@@ -92,5 +93,6 @@ void i386_regs_print_stage2_internal(const i386_registers_t regs) {
 
     printf("kernel information:\n");
     printf("    XFBU kernel version %s\n", XFBU_VERSION);
+    printf("    Teletype device com1@%xh\n", com1_io_port());
     printf("    Compiled by %s on %s\n", XFBU_COMPILER, XFBU_COMPILATION_DATE);
 }
