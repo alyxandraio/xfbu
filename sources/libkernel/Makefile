@@ -2,7 +2,7 @@ BUILD_DIR?=build
 
 LIBGCC_PATH=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
 CC=/home/alyxandra/opt/cross/bin/i686-elf-gcc
-CFLAGS=-ffreestanding -nostdlib -std=c99 -g -I ./include -I ../xfbu/include -I $(abspath $(LIBGCC_PATH))
+CFLAGS=-ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ./include -I ../xfbu/include -I $(abspath $(LIBGCC_PATH))
 
 ASM?=nasm
 ASMFLAGS=-f elf

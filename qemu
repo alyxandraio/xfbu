@@ -11,4 +11,5 @@ qemu-system-i386 \
     -serial stdio \
     -serial pty \
     -no-reboot \
-    -m 256M
+    -m 256M \
+    -s

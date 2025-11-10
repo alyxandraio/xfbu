@@ -1,6 +1,6 @@
 #include <libkernel/xfbu/panic.h>
 
-#include <libkernel/arch/i386/registers.h>
+#include <libkernel/archs/i386.h>
 #include <libkernel/xfbu/info.h>
 #include <libkernel/multiboot.h>
 #include <libkernel/memory.h>
@@ -16,7 +16,7 @@ extern uint8_t stack_bottom[];
 extern uint8_t stack_top[];
 
 void i386_regs_print_stage2_internal(const i386_registers_t regs) {
-    if (!heap_valid) {
+    if (heap_valid == false) {
         i386_regs_print_stage2_internal_heap_invalid(regs);
         return;
     }
@@ -87,6 +87,8 @@ void i386_regs_print_stage2_internal(const i386_registers_t regs) {
     printf("    %u bytes / %u MiB\n", heap_used, memory_total);
     printf("    composite\n");
     printf("    %u KiB / %u MiB\n", memory_used, memory_total);
+
+    print_stack_trace();
 
     printf("kernel information:\n");
     printf("    XFBU kernel version %s\n", XFBU_VERSION);

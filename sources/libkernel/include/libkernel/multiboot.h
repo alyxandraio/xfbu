@@ -1,11 +1,14 @@
 #ifndef __LIBKERNEL_MULTIBOOT_H
 #define __LIBKERNEL_MULTIBOOT_H
 
-#include <libkernel/libc/stdint.h>
 #include <libkernel/libc/stdbool.h>
+#include <libkernel/libc/stddef.h>
+#include <libkernel/libc/stdint.h>
 
 #define MULTIBOOT_TX_MAGIC 0x1BADB002
 #define MULTIBOOT_RX_MAGIC 0x2BADB002
+
+const char* symbol_lookup(size_t*, size_t*);
 
 struct multiboot_aout_symbol_table {
     uint32_t tabsize;

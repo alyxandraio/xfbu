@@ -6,7 +6,7 @@ ASMFLAGS=-f elf
 
 LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
 CC=/home/alyxandra/opt/cross/bin/i686-elf-gcc
-CFLAGS=-ffreestanding -nostdlib -std=c99 -g -I ../libkernel/include -I ./include -I $(abspath $(LIB_DIR))
+CFLAGS=-ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ./include -I $(abspath $(LIB_DIR))
 
 LD=/home/alyxandra/opt/cross/bin/i686-elf-ld
 LDFLAGS=-T i386.ld -nostdlib -L $(LIBGCC_PATH)

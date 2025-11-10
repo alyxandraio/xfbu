@@ -4,9 +4,9 @@
 
 void insert_u32l(u32list_t* list, uint32_t u32, size_t index) {
     if (index > list->vector)
-        panic("__insert_u32l: out of bounds");
+        panic_noheap("__insert_u32l: out of bounds");
     if (list->vector == list->length)
-        panic("__insert_u32l: list overflow");
+        panic_noheap("__insert_u32l: list overflow");
     if (index == list->vector) {
         append_u32l(list, u32);
         return;

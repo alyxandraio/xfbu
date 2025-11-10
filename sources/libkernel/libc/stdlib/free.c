@@ -14,19 +14,31 @@
 
 void free(void* ptr) {
     if (!heap_valid)
-        panic("__free: heap invalid");
+        panic_noheap("__free: heap invalid");
     if (ptr < (void*) 0x1000)
-        panic("__free: `ptr` within page 0");
+        panic_noheap("__free: `ptr` within page 0");
     if (alloc_pool->vector >= alloc_pool->length - 1)
-        panic("__free: allocation pool full");
+        panic_noheap("__free: allocation pool full");
+
 
     // `unsafefind_u32l` triggers a kernel panic if `ptr` is not a member of `alloc_pool`
     size_t pool_idx = (size_t) unsafefind_u32l((u32list_t*) alloc_pool, (uint32_t) ptr);
     size_t avec_idx = (size_t) unsafefind_u32l((u32list_t*) alloc_vectors, (uint32_t) pool_idx);
+    size_t ptr_bytes = (size_t) get_u32l((u32list_t*) alloc_pool_lengths, pool_idx);
+
+    if (ptr + ptr_bytes == heap_ptr + heap_vector) {
+        if (pool_idx == 0) {
+            if (alloc_pool->vector != 1)
+                panic_noheap("__free: unusual state");
+            heap_vector = 0;
+            
+        } else {
+
+        }
+    }
 
     size_t leading_idx = UINT_MAX;
     size_t trailing_idx = UINT_MAX;
-    size_t ptr_bytes = (size_t) get_u32l((u32list_t*) alloc_pool_lengths, pool_idx);
     for (size_t i = 0; i < free_vectors->vector; i += 1) {
         size_t idx = (size_t) get_u32l((u32list_t*) free_vectors, i);
         void* mem = (void*) get_u32l((u32list_t*) alloc_pool, idx);
@@ -122,7 +134,7 @@ void free(void* ptr) {
         if (get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, i)) > get_u32l((u32list_t*) alloc_pool_lengths, get_u32l((u32list_t*) free_vectors, max_index)))
             max_index = i;
     if (max_index == free_vectors->vector - 1)
-        panic("__free: did not find free region of memory larger than 0");
+        panic_noheap("__free: did not find free region of memory larger than 0");
     pop_u32l((u32list_t*) alloc_pool_lengths);
     pop_u32l((u32list_t*) free_vectors);
     largest_free_region_index = max_index;

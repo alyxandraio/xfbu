@@ -4,7 +4,11 @@
 
 void remove_at_u32l(u32list_t* list, size_t index) {
     if (index >= list->vector)
-        panic("__remove_at_u32l: out of bounds");
+        panic_noheap("__remove_at_u32l: out of bounds");
+    if (index == list->vector - 1) {
+        pop_u32l(list);
+        return;
+    }
     list->c_array[index] = 0;
     if (list->vector == 1) {
         list->vector = 0;
@@ -22,11 +26,16 @@ void remove_at_u32l(u32list_t* list, size_t index) {
                 list->vector = 1;
                 break;
             default:
-                panic("__remove_at_u32l: weird state");
+                panic_noheap("__remove_at_u32l: weird state");
         }
         return;
     }
-    for (int i = index; index < list->vector - 2; i += 1)
+    if (index == list->vector - 2) {
+        list->c_array[index] = list->c_array[index + 1];
+        pop_u32l(list);
+        return;
+    }
+    for (int i = index; i < list->vector - 2; i += 1)
         list->c_array[i] = list->c_array[i + 1];
     list->vector -= 1;
 }

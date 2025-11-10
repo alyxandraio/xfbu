@@ -1,5 +1,5 @@
-#ifndef __LIBKERNEL_ARCH_I386_REGISTERS_H
-#define __LIBKERNEL_ARCH_I386_REGISTERS_H 1
+#ifndef __LIBKERNEL_ARCHS_I386_H
+#define __LIBKERNEL_ARCHS_I386_H 1
 
 #include <libkernel/libc/stdint.h>
 
@@ -38,6 +38,15 @@ struct i386_registers {
     uint32_t eax;
 };
 
+struct i386_nlist {
+    uint32_t strtable_offset;
+    uint8_t type;
+    uint8_t other;
+    uint16_t desc;
+    uint32_t value;
+};
+
 typedef struct i386_registers i386_registers_t;
+typedef struct i386_nlist nlist32_t;
 
 #endif

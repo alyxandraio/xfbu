@@ -3,4 +3,4 @@
 make clean
 make
 
-objdump -d -M intel build/xfbu.bin | less
+objdump -d -M intel build/xfbu.elf | less

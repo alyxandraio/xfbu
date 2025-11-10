@@ -1,6 +1,6 @@
 #include <libkernel/xfbu/panic.h>
 
-#include <libkernel/arch/i386/registers.h>
+#include <libkernel/archs/i386.h>
 #include <libkernel/xfbu/info.h>
 #include <libkernel/memory.h>
 #include <libkernel/heap.h>
