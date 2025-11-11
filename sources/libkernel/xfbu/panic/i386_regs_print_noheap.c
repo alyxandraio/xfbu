@@ -14,7 +14,7 @@
 extern uint8_t stack_bottom[];
 extern uint8_t stack_top[];
 
-void i386_regs_print_stage2_internal_heap_invalid(const i386_registers_t regs) {
+void i386_regs_print_noheap(void) {
     const char* s1 = "cpu state:\r\n    eax: 0x";
     const char* s2 = "    ebx: 0x";
     const char* s3 = "    ecx: 0x";
@@ -97,17 +97,17 @@ void i386_regs_print_stage2_internal_heap_invalid(const i386_registers_t regs) {
     size_t memory_used = memory_used_bytes() / 1024;
     size_t memory_total = memory_total_bytes() / (1024 * 1024);
 
-    int_to_hex(regs.eax, eaxh);
-    int_to_hex(regs.ebx, ebxh);
-    int_to_hex(regs.ecx, ecxh);
-    int_to_hex(regs.edx, edxh);
-    int_to_hex(regs.esi, esih);
-    int_to_hex(regs.edi, edih);
-    int_to_hex(regs.ebp, ebph);
-    int_to_hex(regs.eip, eiph);
-    int_to_hex(regs.eflags, eflagsh);
-    short_to_hex(regs.cs, csh);
-    short_to_hex(regs.ds, dsh);
+    int_to_hex(reg_eax(), eaxh);
+    int_to_hex(reg_ebx(), ebxh);
+    int_to_hex(reg_ecx(), ecxh);
+    int_to_hex(reg_edx(), edxh);
+    int_to_hex(reg_esi(), esih);
+    int_to_hex(reg_edi(), edih);
+    int_to_hex(reg_ebp(), ebph);
+    int_to_hex(reg_eip(), eiph);
+    int_to_hex(reg_eflags(), eflagsh);
+    short_to_hex(reg_cs(), csh);
+    short_to_hex(reg_ds(), dsh);
 
     print(s1, strlen(s1));
 }

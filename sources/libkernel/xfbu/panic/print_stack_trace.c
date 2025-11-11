@@ -1,5 +1,6 @@
 #include <libkernel/xfbu/panic.h>
 
+#include <libkernel/libc/string.h>
 #include <libkernel/libc/stdio.h>
 
 #include <libkernel/multiboot.h>
@@ -11,8 +12,9 @@ void print_stack_trace(void) {
     for (size_t depth = 0; ebp && depth < 64; depth += 1) {
         size_t offset;
         size_t* returnaddr = (size_t*) ebp[1];
-        const char* symbol = symbol_lookup(returnaddr, &offset);
-
+        char* symbol = symbol_lookup(returnaddr, &offset);
+        if (strcmp(symbol, "") == 0)
+            symbol = "__unknown";
         printf("    %s+0x%x\n", symbol, offset);
 
         size_t* recursed_ebp = (size_t*) ebp[0];

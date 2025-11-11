@@ -19,11 +19,11 @@ struct i386_registers {
     uint32_t cr0;
 
     uint32_t ss;
-    uint32_t gs;
-    uint32_t fs;
-    uint32_t es;
-    uint32_t ds;
-    uint32_t cs;
+    uint16_t gs;
+    uint16_t fs;
+    uint16_t es;
+    uint16_t ds;
+    uint16_t cs;
 
     uint32_t eflags;
 
@@ -36,7 +36,7 @@ struct i386_registers {
     uint32_t ecx;
     uint32_t ebx;
     uint32_t eax;
-};
+} __attribute__((packed));
 
 struct i386_nlist {
     uint32_t strtable_offset;

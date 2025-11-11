@@ -91,8 +91,7 @@ int printf(const char* restrict format, ...) {
                 case 'u':
                     uint32_t u_num = va_arg(parameters, int);
                     char* u_buf = malloc(11);
-                    for (int i = 0; i < 11; i += 1)
-                        u_buf[i] = '\0';
+                    memset(u_buf, '\0', 11);
                     printf_ubasehelper(u_num, u_buf, 10, 0);
                     int nullb = strlen(u_buf);
                     char* u_buf_reversed = malloc(11);
@@ -110,9 +109,9 @@ int printf(const char* restrict format, ...) {
                 // prints hex str for 16-bit (w)ord
                 // non-standard XFBU extension
                 case 'w':
-                    uint16_t w_num = va_arg(parameters, short int);
+                    uint32_t w_num = va_arg(parameters, int);
                     char* w_buf = malloc(5);
-                    short_to_hex(w_num, w_buf);
+                    short_to_hex((uint16_t) w_num, w_buf);
                     str_trim_leading_zeroes(w_buf);
                     size_t w_buflen = strlen(w_buf);
                     if (maxrem < w_buflen)
@@ -123,9 +122,11 @@ int printf(const char* restrict format, ...) {
                     written += w_buflen;
                     break;
                 case 'W':
-                    uint16_t W_num = va_arg(parameters, short int);
+                    // must deal in uint32_t types due to C compiler (?)
+                    // promoting 16-bit width arguments to 32-bit width
+                    uint32_t W_num = va_arg(parameters, int);
                     char* W_buf = malloc(5);
-                    short_to_hex(W_num, W_buf);
+                    short_to_hex((uint16_t) W_num, W_buf);
                     // str_trim_leading_zeroes(W_buf);
                     size_t W_buflen = strlen(W_buf);
                     if (maxrem < W_buflen)
@@ -167,7 +168,9 @@ int printf(const char* restrict format, ...) {
 
 
         size_t amount = 1;
-        while (format[amount] && format[amount] != '%')
+        while (format[amount]
+            && format[amount] != '%'
+            && format[amount] != '\n')
             amount += 1;
         if (maxrem < amount)
             return -1;

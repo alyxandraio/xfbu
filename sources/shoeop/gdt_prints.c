@@ -1,7 +1,7 @@
 #include <libkernel/libc/stdio.h>
 
 void gdt_preprint(void) {
-    printf(":: GDT initialisation...");
+    printf(":: enabling segmentation...");
 }
 
 void gdt_postprint(void) {

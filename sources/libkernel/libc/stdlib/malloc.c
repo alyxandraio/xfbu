@@ -1,5 +1,6 @@
 #include <libkernel/libc/stdlib.h>
 
+#include <libkernel/libc/sys/malloc.h>
 #include <libkernel/libc/stdint.h>
 #include <libkernel/libc/string.h>
 #include <libkernel/libc/limits.h>
@@ -22,6 +23,8 @@ void* malloc(size_t bytes) {
         panic("__malloc: allocation pool full");
     if (bytes == 0)
         panic("__malloc: cannot pass 0");
+    if (forcibly_advance_vector)
+        return malloc_helper(bytes);
     if (largest_free_region_size == bytes) {
         void* heap_mem = (void*) get_u32l((u32list_t*) alloc_pool,
             get_u32l((u32list_t*) free_vectors, largest_free_region_index));

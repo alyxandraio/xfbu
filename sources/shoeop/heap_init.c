@@ -37,28 +37,28 @@ void heap_init(void) {
     alloc_pool = (vplist_t*) (heap_ptr + heap_vector);
     heap_vector += sizeof(vplist_t);
     alloc_pool->c_array = (void**) (heap_ptr + heap_vector);
-    heap_vector += alloc_pool_size * sizeof(void**);
+    heap_vector += alloc_pool_size;
     alloc_pool->length = alloc_pool_size;
     alloc_pool->vector = 0;
 
     alloc_pool_lengths = (sizelist_t*) (heap_ptr + heap_vector);
     heap_vector += sizeof(sizelist_t);
     alloc_pool_lengths->c_array = (size_t*) (heap_ptr + heap_vector);
-    heap_vector += alloc_pool_size * sizeof(size_t*);
+    heap_vector += alloc_pool_size;
     alloc_pool_lengths->length = alloc_pool_size;
     alloc_pool_lengths->vector = 0;
 
     alloc_vectors = (sizelist_t*) (heap_ptr + heap_vector);
     heap_vector += sizeof(sizelist_t);
     alloc_vectors->c_array = (size_t*) (heap_ptr + heap_vector);
-    heap_vector += alloc_vectors_size * sizeof(size_t*);
+    heap_vector += alloc_vectors_size;
     alloc_vectors->length = alloc_vectors_size;
     alloc_vectors->vector = 0;
 
     free_vectors = (sizelist_t*) (heap_ptr + heap_vector);
     heap_vector += sizeof(sizelist_t);
     free_vectors->c_array = (size_t*) (heap_ptr + heap_vector);
-    heap_vector += free_vectors_size * sizeof(size_t*);
+    heap_vector += free_vectors_size;
     free_vectors->length = free_vectors_size;
     free_vectors->vector = 0;
 
@@ -74,9 +74,9 @@ void heap_init(void) {
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 1);
     set_u32l((u32list_t*) alloc_pool_lengths,
-        (uint32_t) (alloc_pool_size * sizeof(void**)), 1);
+        (uint32_t) alloc_pool_size, 1);
     set_u32l((u32list_t*) alloc_vectors, 1, 1);
-    alt_vector += alloc_pool_size * sizeof(void**);
+    alt_vector += alloc_pool_size;
 
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 2);
@@ -88,9 +88,9 @@ void heap_init(void) {
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 3);
     set_u32l((u32list_t*) alloc_pool_lengths,
-        (uint32_t) (alloc_pool_size * sizeof(size_t*)), 3);
+        (uint32_t) alloc_pool_size, 3);
     set_u32l((u32list_t*) alloc_vectors, 3, 3);
-    alt_vector += alloc_pool_size * sizeof(size_t*);
+    alt_vector += alloc_pool_size;
 
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 4);
@@ -102,9 +102,9 @@ void heap_init(void) {
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 5);
     set_u32l((u32list_t*) alloc_pool_lengths,
-        (uint32_t) (alloc_vectors_size * sizeof(size_t*)), 5);
+        (uint32_t) alloc_vectors_size, 5);
     set_u32l((u32list_t*) alloc_vectors, 5, 5);
-    alt_vector += alloc_vectors_size * sizeof(size_t*);
+    alt_vector += alloc_vectors_size;
 
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 6);
@@ -116,9 +116,9 @@ void heap_init(void) {
     set_u32l((u32list_t*) alloc_pool,
         (uint32_t) (heap_ptr + alt_vector), 7);
     set_u32l((u32list_t*) alloc_pool_lengths,
-        (uint32_t) (free_vectors_size * sizeof(size_t*)), 7);
+        (uint32_t) free_vectors_size, 7);
     set_u32l((u32list_t*) alloc_vectors, 7, 7);
-    alt_vector += free_vectors_size * sizeof(size_t*);
+    alt_vector += free_vectors_size;
 
     if (heap_vector != alt_vector)
         panic("__heap_init: heap_vector != alt_vector");

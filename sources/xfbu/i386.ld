@@ -1,4 +1,7 @@
+OUTPUT_FORMAT("elf32-i386")
 ENTRY(__xfbu_entry)
+XFBU_VMA      = 0xC0000000;
+XFBU_PHYSADDR = 0x00100000;
 SECTIONS {
     . = 1M;
     __xfbu_start = .;

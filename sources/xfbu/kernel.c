@@ -14,14 +14,10 @@
 
 void kernel_main(void) {
     bool flags_bit_0 = mbi->flags | 0b00000001;
-    printf(":: mbi->mem_* valid? %b\n", flags_bit_0);
-    printf(":: mbi->mem_lower = 0x%X\n", mbi->mem_lower);
-    printf(":: mbi->mem_upper = 0x%X\n", mbi->mem_upper);
-    printf(":: kernel size: %u bytes\n", XFBU_BINARY_SIZE);
-    char* s1 = malloc(13);
-    char* s2 = malloc(27);
-    printf(":: malloc test 0x%p 0x%p\n", (void*) s1, (void*) s2);
-    printf(":: mbi 0x%p\n", (void*) mbi);
+    bool flags_bit_4 = mbi->flags | 0b00010000;
+    bool flags_bit_5 = mbi->flags | 0b00100000;
+    printf(":: kernel size = %u KiB\n", XFBU_BINARY_SIZE / 1024);
+    printf(":: cr0 = 0x%X\n", reg_cr0());
     printf(":: testing kernel panic routine...\n");
     panic("__kernel_main: test of `__panic` function for demonstrative purposes");
 }

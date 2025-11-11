@@ -35,10 +35,10 @@ size_t memory_used_bytes(void) {
     // from the symbol table somehow
     memory += XFBU_BINARY_SIZE == 0 ? 1024 * 1024 : XFBU_BINARY_SIZE;
     // add heap size
-    memory += alloc_pool->vector;
-    memory += alloc_pool_lengths->vector;
-    memory += alloc_vectors->vector;
-    memory += free_vectors->vector;
+    memory += alloc_pool->vector * sizeof(void**);
+    memory += alloc_pool_lengths->vector * sizeof(size_t*);
+    memory += alloc_vectors->vector * sizeof(size_t*);
+    memory += free_vectors->vector * sizeof(size_t*);
     memory += heap_vector - internal_heap_vector;
     // add used stack memory
     const uint8_t* stack_end = (const uint8_t*) (uintptr_t) &stack_top[0];
