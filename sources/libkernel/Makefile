@@ -30,9 +30,9 @@ compilerinforeplace:
 $(BUILD_DIR)/libkernel/c/%.o: %.c compilerinforeplace
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
-	objcopy --prefix-symbols=__ $@
+	llvm-objcopy --prefix-symbols=__ $@
 
 $(BUILD_DIR)/libkernel/asm/%.o: %.asm
 	mkdir -p $(@D)
 	$(ASM) $(ASMFLAGS) -o $@ $<
-	objcopy --prefix-symbols=__ $@
+	llvm-objcopy --prefix-symbols=__ $@

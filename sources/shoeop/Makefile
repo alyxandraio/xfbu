@@ -24,9 +24,9 @@ stage1: $(OBJECTS_ASM) $(OBJECTS_C)
 $(BUILD_DIR)/shoeop/c/%.o: %.c $(HEADERS_C)
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
-	objcopy --prefix-symbols=__ $@
+	llvm-objcopy --prefix-symbols=__ $@
 
 $(BUILD_DIR)/shoeop/asm/%.o: %.asm
 	mkdir -p $(@D)
 	$(ASM) $(ASMFLAGS) -o $@ $<
-	objcopy --prefix-symbols=__ $@
+	llvm-objcopy --prefix-symbols=__ $@
