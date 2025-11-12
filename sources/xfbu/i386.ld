@@ -3,20 +3,23 @@ ENTRY(__xfbu_entry)
 XFBU_VMA      = 0xC0000000;
 XFBU_PHYSADDR = 0x00100000;
 SECTIONS {
-    . = 1M;
+    . = 0x00100000;
     __xfbu_start = .;
 
-    .text BLOCK(4K) : ALIGN(4K) {
+    .text : AT(0x100000) {
         *(.multiboot)
         *(.text)
     }
-    .rodata BLOCK(4K) : ALIGN(4K) {
+
+    .rodata : ALIGN(4096) {
         *(.rodata)
     }
-    .data BLOCK(4K) : ALIGN(4K) {
+
+    .data : ALIGN(4096) {
         *(.data)
     }
-    .bss BLOCK(4K) : ALIGN(4K) {
+
+    .bss (NOLOAD) : {
         *(COMMON)
         *(.bss)
     }

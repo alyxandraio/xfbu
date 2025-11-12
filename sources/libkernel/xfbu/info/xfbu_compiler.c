@@ -1,4 +1,4 @@
 #include <libkernel/xfbu/info.h>
 
 // populated by Make invocation
-const char* XFBU_COMPILER = "i686-elf-gcc (GCC) 15.2.0";
+const char* XFBU_COMPILER = "clang version 17.0.0";

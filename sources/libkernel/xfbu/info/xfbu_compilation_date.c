@@ -1,4 +1,4 @@
 #include <libkernel/xfbu/info.h>
 
 // populated by Make invocation
-const char* XFBU_COMPILATION_DATE = "2025-11-10 21:37:54";
+const char* XFBU_COMPILATION_DATE = "2025-11-12 00:30:03";

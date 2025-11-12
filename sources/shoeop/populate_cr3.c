@@ -10,7 +10,7 @@
 #include <xfbu/panic.h>
 
 size_t populate_cr3(void) {
-    size_t heap_end = (size_t) heap_ptr + heap_vector;
+    size_t heap_end = (size_t) (heap_ptr + heap_vector);
     size_t needed = 0x1000 - (heap_end % 0x1000);
     forcibly_advance_vector = true;
     void* temp_alloc = malloc(needed);

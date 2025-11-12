@@ -16,8 +16,10 @@ void kernel_main(void) {
     bool flags_bit_0 = mbi->flags | 0b00000001;
     bool flags_bit_4 = mbi->flags | 0b00010000;
     bool flags_bit_5 = mbi->flags | 0b00100000;
+    void* paging_test_ptr = malloc(1024);
     printf(":: kernel size = %u KiB\n", XFBU_BINARY_SIZE / 1024);
-    printf(":: cr0 = 0x%X\n", reg_cr0());
+    printf(":: malloc/paging test 0x%p\n", paging_test_ptr);
+    free(paging_test_ptr);
     printf(":: testing kernel panic routine...\n");
     panic("__kernel_main: test of `__panic` function for demonstrative purposes");
 }

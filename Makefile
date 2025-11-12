@@ -1,24 +1,24 @@
 BUILD_DIR=build
 ASM=nasm
-CC=/home/alyxandra/opt/cross/bin/i686-elf-gcc
-LD=/home/alyxandra/opt/cross/bin/i686-elf-ld
+CC=clang
+LD=ld.lld
 LIBGCC_PATH=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
-ZLIBC_DIR=$(abspath $(SOURCES_DIR)/zlibc)
 
 export FAT
 export ASM
 export CC
 export LD
 export LIBGCC_PATH
-export LIBC_DIR
 
 # floppy: xfbu_1440kb.img
 
-.PHONY: all iso clean libkernel bootloader shoeop xfbu
+.PHONY: all iso clean libkernel bootloader shoeop xfbu build
 
 all: iso
 
 iso: xfbu.iso
+
+build: clean limine/limine libkernel bootloader xfbu
 
 clean:
 	rm -f limine/limine
@@ -29,7 +29,7 @@ clean:
 	rm -rf sources/libkernel/build/
 	rm -rf sources/xfbu/build/
 
-limine/limine:
+limine/limine: xfbu
 	$(MAKE) -C limine/
 
 xfbu.iso: clean limine/limine libkernel bootloader xfbu
@@ -50,11 +50,11 @@ xfbu.iso: clean limine/limine libkernel bootloader xfbu
 
 bootloader: shoeop
 
-libkernel:
+libkernel: clean
 	mkdir -p $(BUILD_DIR)
 	$(MAKE) -C sources/libkernel/ BUILD_DIR=$(abspath $(BUILD_DIR))
 
-shoeop:
+shoeop: clean
 	mkdir -p $(BUILD_DIR)
 	$(MAKE) -C sources/shoeop/ BUILD_DIR=$(abspath $(BUILD_DIR))
 

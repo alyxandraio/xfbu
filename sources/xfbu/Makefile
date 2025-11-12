@@ -5,11 +5,12 @@ ASM=nasm
 ASMFLAGS=-f elf
 
 LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
-CC=/home/alyxandra/opt/cross/bin/i686-elf-gcc
-CFLAGS=-ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ./include -I $(abspath $(LIB_DIR))
+CC=clang
+CFLAGS=-target i686-none-elf -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ./include
 
-LD=/home/alyxandra/opt/cross/bin/i686-elf-ld
-LDFLAGS=-T i386.ld -nostdlib -L $(LIBGCC_PATH)
+LD=ld.lld
+LDFLAGS=-m elf_i386 -T i386.ld -nostdlib
+# -L $(LIBGCC_PATH)
 
 HEADERS_C:=$(shell find . -type f -name '*.h' -print)
 SOURCES_C:=$(shell find . -type f -name '*.c' -print)
@@ -35,4 +36,4 @@ $(BUILD_DIR)/xfbu/asm/%.o: %.asm
 	objcopy --prefix-symbols=__ $@
 
 $(BUILD_DIR)/xfbu.elf: $(OBJECTS_ASM) $(OBJECTS_C)
-	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) -lgcc -Map $(BUILD_DIR)/xfbu.map
+	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) -Map $(BUILD_DIR)/xfbu.map

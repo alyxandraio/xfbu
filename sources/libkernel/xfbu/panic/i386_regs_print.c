@@ -22,14 +22,11 @@ void i386_regs_print(void) {
         return;
     }
 
-    size_t cr0_reg = reg_cr0();
-
     printf("cpu state:\n");
     printf("    eax: 0x%X    ebx: 0x%X    ecx: 0x%X    edx: 0x%X\n", reg_eax(), reg_ebx(), reg_ecx(), reg_edx());
     printf("    esi: 0x%X    edi: 0x%X    ebp: 0x%X    eip: 0x%X\n", reg_esi(), reg_edi(), reg_ebp(), reg_eip());
     printf("     cs: 0x....%W     ds: 0x....%W     es: 0x....%W     fs: 0x....%W\n", reg_cs(), reg_ds(), reg_es(), reg_fs());
-    printf("     gs: 0x....%W     ss: 0x....%W    cr0: 0x%X    cr2: 0x%X\n", (uint16_t) reg_gs(), (uint16_t) reg_ss(), cr0_reg, reg_cr2());
-    printf("::  cr0: 0x%X\n", cr0_reg);
+    printf("     gs: 0x....%W     ss: 0x....%W    cr0: 0x%X    cr2: 0x%X\n", (uint16_t) reg_gs(), (uint16_t) reg_ss(), reg_cr0(), reg_cr2());
     printf("    cr3: 0x%X    cr4: 0x%X    dr0: 0x%X    dr1: 0x%X\n", reg_cr3(), reg_cr4(), reg_dr0(), reg_dr1());
     printf("    dr2: 0x%X    dr3: 0x%X    dr6: 0x%X    dr7: 0x%X\n", reg_dr2(), reg_dr3(), reg_dr6(),reg_dr7());
 
