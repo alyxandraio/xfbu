@@ -27,12 +27,13 @@ int printf(const char* restrict format, ...) {
         size_t maxrem = INT_MAX - written;
         if (format[0] == '%') {
             switch (format[1]) {
-                case '%':
+                case '%': {
                     if (!print(format, 1))
                         return -1;
                     written += 1;
                     break;
-                case 'c':
+                }
+                case 'c': {
                     char c = (char) va_arg(parameters, int);
                     if (!maxrem)
                         return -1;
@@ -40,7 +41,8 @@ int printf(const char* restrict format, ...) {
                         return -1;
                     written += 1;
                     break;
-                case 's':
+                }
+                case 's': {
                     const char* str = va_arg(parameters, const char*);
                     size_t len = strlen(str);
                     if (maxrem < len)
@@ -49,7 +51,8 @@ int printf(const char* restrict format, ...) {
                         return -1;
                     written += len;
                     break;
-                case 'x':
+                }
+                case 'x': {
                     uint32_t num = va_arg(parameters, int);
                     char* buf = malloc(9);
                     int_to_hex(num, buf);
@@ -62,7 +65,8 @@ int printf(const char* restrict format, ...) {
                     free(buf);
                     written += buflen;
                     break;
-                case 'p':
+                }
+                case 'p': {
                     uintptr_t ptr = (uintptr_t) va_arg(parameters, void*);
                     char* p_buf = malloc(9);
                     int_to_hex((uint32_t) ptr, p_buf);
@@ -75,7 +79,8 @@ int printf(const char* restrict format, ...) {
                     free(p_buf);
                     written += p_buflen;
                     break;
-                case 'X':
+                }
+                case 'X': {
                     uint32_t X_num = va_arg(parameters, int);
                     char* X_buf = malloc(9);
                     int_to_hex(X_num, X_buf);
@@ -88,7 +93,8 @@ int printf(const char* restrict format, ...) {
                     free(X_buf);
                     written += X_buflen;
                     break;
-                case 'u':
+                }
+                case 'u': {
                     uint32_t u_num = va_arg(parameters, int);
                     char* u_buf = malloc(11);
                     memset(u_buf, '\0', 11);
@@ -106,9 +112,10 @@ int printf(const char* restrict format, ...) {
                     free(u_buf);
                     written += nullb;
                     break;
+                }
                 // prints hex str for 16-bit (w)ord
                 // non-standard XFBU extension
-                case 'w':
+                case 'w': {
                     uint32_t w_num = va_arg(parameters, int);
                     char* w_buf = malloc(5);
                     short_to_hex((uint16_t) w_num, w_buf);
@@ -121,7 +128,8 @@ int printf(const char* restrict format, ...) {
                     free(w_buf);
                     written += w_buflen;
                     break;
-                case 'W':
+                }
+                case 'W': {
                     // must deal in uint32_t types due to C compiler (?)
                     // promoting 16-bit width arguments to 32-bit width
                     uint32_t W_num = va_arg(parameters, int);
@@ -136,7 +144,8 @@ int printf(const char* restrict format, ...) {
                     free(W_buf);
                     written += W_buflen;
                     break;
-                case 'b':
+                }
+                case 'b': {
                     bool b = va_arg(parameters, _Bool);
                     char* b_buf = malloc(6);
                     strcpy(b_buf, b ? "true" : "false");
@@ -148,6 +157,7 @@ int printf(const char* restrict format, ...) {
                     free(b_buf);
                     written += b_buflen;
                     break;
+                }
             }
             format += 2;
             continue;
