@@ -2,6 +2,10 @@
 
 the xfbu operating system.
 
+## Dependencies
+
+`make clang lld xorriso cctools`
+
 ## Credits
 
 * [Limine](https://codeberg.org/Limine/Limine) team and contributors
