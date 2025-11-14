@@ -1,9 +1,9 @@
-#ifndef __LIBKERNEL_ARCHS_I386_H
-#define __LIBKERNEL_ARCHS_I386_H 1
+#ifndef __LIBKERNEL_ARCHS_i686_H
+#define __LIBKERNEL_ARCHS_i686_H 1
 
 #include <libkernel/libc/stdint.h>
 
-struct i386_registers {
+struct i686_registers {
     uint32_t esp;
 
     uint32_t dr7;
@@ -38,7 +38,7 @@ struct i386_registers {
     uint32_t eax;
 } __attribute__((packed));
 
-struct i386_nlist {
+struct i686_nlist {
     uint32_t strtable_offset;
     uint8_t type;
     uint8_t other;
@@ -46,7 +46,7 @@ struct i386_nlist {
     uint32_t value;
 };
 
-typedef struct i386_registers i386_registers_t;
-typedef struct i386_nlist nlist32_t;
+typedef struct i686_registers i686_registers_t;
+typedef struct i686_nlist nlist32_t;
 
 #endif

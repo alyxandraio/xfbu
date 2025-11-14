@@ -19,7 +19,7 @@ void panic(const char* s) {
     if (s != (char*) 0)
         print(s, strlen(s));
     print(s2, strlen(s2));
-    i386_regs_print();
+    i686_regs_print();
     print(s3, strlen(s3));
     asm_hlt();
     while (1);

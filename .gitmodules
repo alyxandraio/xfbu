@@ -2,3 +2,7 @@
     path = limine
     url = https://codeberg.org/Limine/Limine.git
     branch = v10.x-binary
+[submodule "font8x8"]
+	path = font8x8
+	url = https://github.com/alyxandraio/font8x8.git
+	branch = master

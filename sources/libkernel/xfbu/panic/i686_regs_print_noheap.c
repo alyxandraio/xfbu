@@ -1,6 +1,6 @@
 #include <libkernel/xfbu/panic.h>
 
-#include <libkernel/archs/i386.h>
+#include <libkernel/archs/i686/i686.h>
 #include <libkernel/xfbu/info.h>
 #include <libkernel/memory.h>
 #include <libkernel/heap.h>
@@ -14,7 +14,7 @@
 extern uint8_t stack_bottom[];
 extern uint8_t stack_top[];
 
-void i386_regs_print_noheap(void) {
+void i686_regs_print_noheap(void) {
     const char* s1 = "cpu state:\r\n    eax: 0x";
     const char* s2 = "    ebx: 0x";
     const char* s3 = "    ecx: 0x";

@@ -4,7 +4,7 @@
 #include <libkernel/libc/stdio.h>
 
 
-#include <libkernel/archs/i386.h>
+#include <libkernel/archs/i686/i686.h>
 
 #include <xfbu/panic.h>
 

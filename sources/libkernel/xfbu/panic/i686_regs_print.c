@@ -1,6 +1,6 @@
 #include <libkernel/xfbu/panic.h>
 
-#include <libkernel/archs/i386.h>
+#include <libkernel/archs/i686/i686.h>
 #include <libkernel/xfbu/info.h>
 #include <libkernel/multiboot.h>
 #include <libkernel/memory.h>
@@ -11,14 +11,14 @@
 #include <libkernel/libc/stdint.h>
 #include <libkernel/libc/stdio.h>
 
-extern void i386_regs_print_noheap(void);
+extern void i686_regs_print_noheap(void);
 
 extern uint8_t stack_bottom[];
 extern uint8_t stack_top[];
 
-void i386_regs_print(void) {
+void i686_regs_print(void) {
     if (heap_valid == false) {
-        i386_regs_print_noheap();
+        i686_regs_print_noheap();
         return;
     }
 

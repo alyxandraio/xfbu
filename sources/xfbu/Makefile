@@ -9,7 +9,7 @@ CC=clang
 CFLAGS=-target i686-none-elf -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ./include
 
 LD=ld.lld
-LDFLAGS=-m elf_i386 -T i386.ld -nostdlib
+LDFLAGS=-m elf_i386 -T i686.ld -nostdlib
 # -L $(LIBGCC_PATH)
 
 HEADERS_C:=$(shell find . -type f -name '*.h' -print)
