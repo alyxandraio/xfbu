@@ -18,7 +18,7 @@ all: iso
 
 iso: xfbu.iso
 
-build: clean limine/limine libkernel bootloader xfbu
+build: clean $(BUILD_DIR)/limine libkernel bootloader xfbu
 
 clean:
 	rm -f limine/limine
@@ -29,10 +29,11 @@ clean:
 	rm -rf sources/libkernel/build/
 	rm -rf sources/xfbu/build/
 
-limine/limine: xfbu
+$(BUILD_DIR)/limine: xfbu
 	$(MAKE) -C limine/
+	mv limine/limine $(BUILD_DIR)/limine
 
-xfbu.iso: clean limine/limine libkernel bootloader xfbu
+xfbu.iso: clean $(BUILD_DIR)/limine libkernel bootloader xfbu
 	rm -rf iso_root
 	mkdir -p iso_root/boot/limine
 	mkdir -p iso_root/EFI/BOOT
@@ -46,7 +47,7 @@ xfbu.iso: clean limine/limine libkernel bootloader xfbu
 		-apm-block-size 2048 --efi-boot boot/limine/limine-uefi-cd.bin \
 		-efi-boot-part --efi-boot-image --protective-msdos-label \
 		iso_root -o xfbu.iso
-	./limine/limine bios-install xfbu.iso
+	$(BUILD_DIR)/limine bios-install xfbu.iso
 
 bootloader: shoeop
 
