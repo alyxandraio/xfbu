@@ -6,3 +6,7 @@
 	path = font8x8
 	url = https://github.com/alyxandraio/font8x8.git
 	branch = master
+[submodule "pongoOS"]
+	path = pongoOS
+	url = https://github.com/alyxandraio/pongoOS.git
+	branch = xfbu
