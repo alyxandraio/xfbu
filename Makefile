@@ -17,7 +17,7 @@ export LIBGCC_PATH
 all:
 	@echo "must specify target"
 
-iso: xfbu.iso
+iso: xfbu-i686.iso
 
 i686: clean $(BUILD_DIR)/limine xfbu_i686
 
@@ -31,14 +31,14 @@ clean:
 	rm -rf sources/shoeop/build/
 	rm -rf sources/libkernel/build/
 	rm -rf sources/xfbu/build/
-	$(MAKE) -C pongoOS/newlib/ clean
+	# $(MAKE) -C pongoOS/newlib/ clean
 
 $(BUILD_DIR)/limine:
 	$(MAKE) -C limine/
 	mkdir -p $(BUILD_DIR)
 	mv limine/limine $(BUILD_DIR)/limine
 
-xfbu.iso: clean $(BUILD_DIR)/limine libkernel_i686 bootloader_i686 xfbu_i686
+xfbu-i686.iso: clean $(BUILD_DIR)/limine libkernel_i686 bootloader_i686 xfbu_i686
 	rm -rf iso_root
 	mkdir -p iso_root/boot/limine
 	mkdir -p iso_root/EFI/BOOT
@@ -47,12 +47,14 @@ xfbu.iso: clean $(BUILD_DIR)/limine libkernel_i686 bootloader_i686 xfbu_i686
 	cp -v limine.conf iso_root/boot/limine
 	cp -v limine/limine-bios.sys limine/limine-bios-cd.bin limine/limine-uefi-cd.bin iso_root/boot/limine/
 	cp -v limine/BOOTIA32.EFI iso_root/EFI/BOOT
+	
 	xorriso -as mkisofs -R -r -J -b boot/limine/limine-bios-cd.bin \
 		-no-emul-boot -boot-load-size 4 -boot-info-table -hfsplus \
 		-apm-block-size 2048 --efi-boot boot/limine/limine-uefi-cd.bin \
 		-efi-boot-part --efi-boot-image --protective-msdos-label \
-		iso_root -o xfbu.iso
-	$(BUILD_DIR)/limine bios-install xfbu.iso
+		iso_root -o $@
+	
+	$(BUILD_DIR)/limine bios-install $@
 
 bootloader_i686: shoeop_i686
 

@@ -7,7 +7,7 @@ clear
 
 qemu-system-i386 \
     -display none \
-    -cdrom ./xfbu.iso \
+    -cdrom ./xfbu-i686.iso \
     -serial stdio \
     -serial pty \
     -no-reboot \
