@@ -45,11 +45,11 @@ $(BUILD_DIR)/xfbu/asm/%.o: %.asm
 	$(ASM) $(ASMFLAGS) -o $@ $<
 	# $(OBJCOPY) --prefix-symbols=_ $@
 
-$(BUILD_DIR)/xfbu-arm64_iphoneos: $(OBJECTS_ASM) $(OBJECTS_C) $(OBJECTS_ARM64_IPHONEOS_ASM) $(OBJECTS_ARM64_IPHONEOS_C)
+$(BUILD_DIR)/xfbu-arm64_iphoneos.mach-o: $(OBJECTS_ASM) $(OBJECTS_C) $(OBJECTS_ARM64_IPHONEOS_ASM) $(OBJECTS_ARM64_IPHONEOS_C)
 	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) $(OBJECTS_PONGO) $(OBJECTS_LIBC)
 
-$(BUILD_DIR)/xfbu-arm64_iphoneos.bin: $(BUILD_DIR)/xfbu-arm64_iphoneos $(BUILD_DIR)/pongo/vmacho
-	$(BUILD_DIR)/pongo/vmacho -fM 0x80000 $(BUILD_DIR)/xfbu-arm64_iphoneos $@
+$(BUILD_DIR)/xfbu-arm64_iphoneos.bin: $(BUILD_DIR)/xfbu-arm64_iphoneos.mach-o $(BUILD_DIR)/pongo/vmacho
+	$(BUILD_DIR)/pongo/vmacho -fM 0x80000 $(BUILD_DIR)/xfbu-arm64_iphoneos.mach-o $@
 
 $(BUILD_DIR)/pongo/vmacho: ../../pongoOS/tools/vmacho.c
 	mkdir -p $(@D)
