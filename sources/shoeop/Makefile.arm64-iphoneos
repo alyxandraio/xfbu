@@ -6,7 +6,7 @@ ASMFLAGS=-f elf
 LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
 CC=/home/alyxandra/opt/ios-arm64e-clang-toolchain/bin/clang
 OBJCOPY=/home/alyxandra/opt/ios-arm64e-clang-toolchain/bin/llvm-objcopy
-CFLAGS=--target=arm64-apple-ios12.0 -D__XFBU_ARCH_ARM64_IPHONEOS -ffreestanding -nostdlibinc -fno-blocks -U__nonnull -DTARGET_OS_OSX=0 -DTARGET_OS_MACCATALYST=0 -D_GNU_SOURCE -D__DYNAMIC_REENT__ -DDER_TAG_SIZE=8 -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ../xfbu/include -I ../../pongoOS/newlib/aarch64-none-darwin/include
+CFLAGS=--target=arm64-apple-ios12.0 -D__XFBU_ARCH_ARM64_IPHONEOS -ffreestanding -nostdlibinc -fno-blocks -U__nonnull -DTARGET_OS_OSX=0 -DTARGET_OS_MACCATALYST=0 -D_GNU_SOURCE -D__DYNAMIC_REENT__ -DDER_TAG_SIZE=8 -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ../xfbu/include -I ../../pongoOS/newlib/aarch64-none-darwin/include -I ../../pongoOS/apple-include -I ../../pongoOS/include -I ../../pongoOS/src/drivers -I ../../pongoOS/src/lib -I include
 
 HEADERS_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.h' -print)
 SOURCES_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.c' -print)
