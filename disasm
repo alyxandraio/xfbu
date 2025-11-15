@@ -1,6 +1,6 @@
 #!/bin/sh
 
 make clean
-make
+make i686
 
 objdump -d -M intel build/xfbu.elf | less

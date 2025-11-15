@@ -1,0 +1,39 @@
+BUILD_DIR?=build
+
+ASM?=nasm
+ASMFLAGS=-f elf
+
+LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
+CC=clang
+CFLAGS=-target i686-none-elf -D__XFBU_ARCH_I686 -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ../xfbu/include
+
+HEADERS_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.h' -print)
+SOURCES_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.c' -print)
+SOURCES_ASM:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.asm' -print)
+
+OBJECTS_C=$(patsubst %.c, $(BUILD_DIR)/shoeop/c/%.o, $(SOURCES_C))
+OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/shoeop/asm/%.o, $(SOURCES_ASM))
+OBJECTS_LIBKERNEL:=$(shell find $(BUILD_DIR)/libkernel/. -type f -name '*.o' -print)
+
+HEADERS_I686_C:=$(shell find . -type f -regex '.*/archs/i686/.*\.h')
+SOURCES_I686_C:=$(shell find . -type f -regex '.*/archs/i686/.*\.c')
+SOURCES_I686_ASM:=$(shell find . -type f -regex '.*/archs/i686/.*\.asm')
+
+OBJECTS_I686_C=$(patsubst %.c, $(BUILD_DIR)/shoeop/c/%.o, $(SOURCES_I686_C))
+OBJECTS_I686_ASM=$(patsubst %.asm, $(BUILD_DIR)/shoeop/asm/%.o, $(SOURCES_I686_ASM))
+
+.PHONY: stage1 all
+
+all: stage1
+
+stage1: $(OBJECTS_ASM) $(OBJECTS_C) $(OBJECTS_I686_ASM) $(OBJECTS_I686_C)
+
+$(BUILD_DIR)/shoeop/c/%.o: %.c $(HEADERS_C) $(HEADERS_I686_C)
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+	llvm-objcopy --prefix-symbols=__ $@
+
+$(BUILD_DIR)/shoeop/asm/%.o: %.asm
+	mkdir -p $(@D)
+	$(ASM) $(ASMFLAGS) -o $@ $<
+	llvm-objcopy --prefix-symbols=__ $@
