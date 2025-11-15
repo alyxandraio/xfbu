@@ -31,6 +31,7 @@ clean:
 	rm -rf sources/shoeop/build/
 	rm -rf sources/libkernel/build/
 	rm -rf sources/xfbu/build/
+	$(MAKE) -C pongoOS/newlib/ clean
 
 $(BUILD_DIR)/limine:
 	$(MAKE) -C limine/

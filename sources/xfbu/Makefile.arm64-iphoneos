@@ -21,6 +21,7 @@ OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/xfbu/asm/%.o, $(SOURCES_ASM))
 OBJECTS_LIBKERNEL:=$(shell find $(BUILD_DIR)/libkernel/. -type f -name '*.o' -print)
 OBJECTS_SHOEOP:=$(shell find $(BUILD_DIR)/shoeop/. -type f -name '*.o' -print)
 OBJECTS_PONGO:=$(shell find $(BUILD_DIR)/pongo/. -type f -name '*.o' -print)
+OBJECTS_LIBC:=$(shell find ../../pongoOS/newlib/build/libc/. -type f -name '*.o' -print)
 
 HEADERS_ARM64_IPHONEOS_C:=$(shell find . -type f -regex '.*/archs/arm64-iphoneos/.*\.h')
 SOURCES_ARM64_IPHONEOS_C:=$(shell find . -type f -regex '.*/archs/arm64-iphoneos/.*\.c')
@@ -44,4 +45,4 @@ $(BUILD_DIR)/xfbu/asm/%.o: %.asm
 	# $(OBJCOPY) --prefix-symbols=_ $@
 
 $(BUILD_DIR)/xfbu-arm64_iphoneos.bin: $(OBJECTS_ASM) $(OBJECTS_C) $(OBJECTS_ARM64_IPHONEOS_ASM) $(OBJECTS_ARM64_IPHONEOS_C)
-	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) $(OBJECTS_PONGO)
+	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) $(OBJECTS_PONGO) $(OBJECTS_LIBC)
