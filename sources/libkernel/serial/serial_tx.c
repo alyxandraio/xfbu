@@ -1,5 +1,6 @@
 #include <libkernel/serial.h>
-#include <libkernel/bda.h>
+
+#include <libkernel/archs/i686/bda.h>
 #include <libkernel/asm.h>
 
 void serial_tx(uint8_t c) {

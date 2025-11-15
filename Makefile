@@ -12,13 +12,16 @@ export LIBGCC_PATH
 
 # floppy: xfbu_1440kb.img
 
-.PHONY: all iso clean libkernel bootloader shoeop xfbu build
+.PHONY: all iso i686 arm64-iphoneos clean libkernel_i686 bootloader_i686 shoeop_i686 xfbu_i686 libkernel_arm64-iphoneos bootloader_arm64-iphoneos shoeop_arm64-iphoneos xfbu_arm64-iphoneos
 
-all: iso
+all:
+	@echo "must specify target"
 
 iso: xfbu.iso
 
-build: clean $(BUILD_DIR)/limine libkernel bootloader xfbu
+i686: clean $(BUILD_DIR)/limine xfbu_i686
+
+arm64-iphoneos: clean xfbu_arm64-iphoneos
 
 clean:
 	rm -f limine/limine
@@ -29,11 +32,12 @@ clean:
 	rm -rf sources/libkernel/build/
 	rm -rf sources/xfbu/build/
 
-$(BUILD_DIR)/limine: xfbu
+$(BUILD_DIR)/limine:
 	$(MAKE) -C limine/
+	mkdir -p $(BUILD_DIR)
 	mv limine/limine $(BUILD_DIR)/limine
 
-xfbu.iso: clean $(BUILD_DIR)/limine libkernel bootloader xfbu
+xfbu.iso: clean $(BUILD_DIR)/limine libkernel_i686 bootloader_i686 xfbu_i686
 	rm -rf iso_root
 	mkdir -p iso_root/boot/limine
 	mkdir -p iso_root/EFI/BOOT
@@ -49,16 +53,34 @@ xfbu.iso: clean $(BUILD_DIR)/limine libkernel bootloader xfbu
 		iso_root -o xfbu.iso
 	$(BUILD_DIR)/limine bios-install xfbu.iso
 
-bootloader: shoeop
+bootloader_i686: shoeop_i686
 
-libkernel: clean
+libkernel_i686: clean
 	mkdir -p $(BUILD_DIR)
-	$(MAKE) -C sources/libkernel/ BUILD_DIR=$(abspath $(BUILD_DIR))
+	$(MAKE) -C sources/libkernel/ -f Makefile.i686 BUILD_DIR=$(abspath $(BUILD_DIR))
 
-shoeop: clean
+shoeop_i686: clean
 	mkdir -p $(BUILD_DIR)
-	$(MAKE) -C sources/shoeop/ BUILD_DIR=$(abspath $(BUILD_DIR))
+	$(MAKE) -C sources/shoeop/ -f Makefile.i686 BUILD_DIR=$(abspath $(BUILD_DIR))
 
-xfbu: libkernel shoeop
+xfbu_i686: libkernel_i686 bootloader_i686
 	mkdir -p $(BUILD_DIR)
-	$(MAKE) -C sources/xfbu/ BUILD_DIR=$(abspath $(BUILD_DIR))
+	$(MAKE) -C sources/xfbu/ -f Makefile.i686 BUILD_DIR=$(abspath $(BUILD_DIR))
+
+bootloader_arm64-iphoneos: shoeop_arm64-iphoneos
+
+libkernel_arm64-iphoneos: clean
+	mkdir -p $(BUILD_DIR)
+	$(MAKE) -C sources/libkernel/ -f Makefile.arm64-iphoneos BUILD_DIR=$(abspath $(BUILD_DIR))
+
+shoeop_arm64-iphoneos: clean
+	mkdir -p $(BUILD_DIR)
+	$(MAKE) -C sources/shoeop/ -f Makefile.arm64-iphoneos BUILD_DIR=$(abspath $(BUILD_DIR))
+
+xfbu_arm64-iphoneos: libkernel_arm64-iphoneos bootloader_arm64-iphoneos pongo_arm64-iphoneos
+	mkdir -p $(BUILD_DIR)
+	$(MAKE) -C sources/xfbu/ -f Makefile.arm64-iphoneos BUILD_DIR=$(abspath $(BUILD_DIR))
+
+pongo_arm64-iphoneos: clean libkernel_arm64-iphoneos shoeop_arm64-iphoneos
+	mkdir -p $(BUILD_DIR)
+	$(MAKE) -C pongoOS/

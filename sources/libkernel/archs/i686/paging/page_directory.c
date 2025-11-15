@@ -1,4 +1,4 @@
-#include <libkernel/paging.h>
+#include <libkernel/archs/i686/paging.h>
 
 #include <libkernel/libc/stdint.h>
 

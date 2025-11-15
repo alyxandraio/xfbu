@@ -3,7 +3,7 @@
 #include <libkernel/libc/string.h>
 #include <libkernel/libc/stdio.h>
 
-#include <libkernel/multiboot.h>
+#include <libkernel/archs/i686/multiboot.h>
 #include <libkernel/asm.h>
 
 void print_stack_trace(void) {

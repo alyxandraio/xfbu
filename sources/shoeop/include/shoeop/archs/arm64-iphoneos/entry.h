@@ -3,6 +3,6 @@
 
 #include <libkernel/libc/stdint.h>
 
-extern void _xfbu_entry_arm64_iphoneos(uint64_t*);
+extern void xfbu_entry_arm64_iphoneos(uint64_t*);
 
 #endif

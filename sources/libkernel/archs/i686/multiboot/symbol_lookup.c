@@ -1,4 +1,4 @@
-#include <libkernel/multiboot.h>
+#include <libkernel/archs/i686/multiboot.h>
 
 #include <libkernel/libc/stdint.h>
 #include <libkernel/libc/stdio.h>

@@ -1,5 +1,6 @@
 #include <libkernel/serial.h>
-#include <libkernel/bda.h>
+
+#include <libkernel/archs/i686/bda.h>
 #include <libkernel/asm.h>
 
 #include <libkernel/libc/stdint.h>

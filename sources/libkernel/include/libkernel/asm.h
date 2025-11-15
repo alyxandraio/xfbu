@@ -1,6 +1,8 @@
 #ifndef __LIBKERNEL_ASM_H
 #define __LIBKERNEL_ASM_H
 
+#if defined(__XFBU_ARCH_I686)
+
 #include <libkernel/libc/stddef.h>
 #include <libkernel/libc/stdint.h>
 
@@ -36,5 +38,11 @@ size_t reg_dr2(void);
 size_t reg_dr3(void);
 size_t reg_dr6(void);
 size_t reg_dr7(void);
+
+#elif defined(__XFBU_ARCH_ARM64_IPHONEOS)
+// nothing for now ...
+#else
+#error
+#endif
 
 #endif

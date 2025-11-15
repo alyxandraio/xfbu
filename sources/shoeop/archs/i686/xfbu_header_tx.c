@@ -1,7 +1,7 @@
+#include <libkernel/archs/i686/bda.h>
 #include <libkernel/xfbu/info.h>
 #include <libkernel/util.h>
 #include <libkernel/hex.h>
-#include <libkernel/bda.h>
 
 #include <libkernel/libc/string.h>
 #include <libkernel/libc/stdio.h>

@@ -1,6 +1,8 @@
 #ifndef __LIBKERNEL_STDIO_H
 #define __LIBKERNEL_STDIO_H 1
 
+#ifdef __XFBU_ARCH_I686
+
 #include <libkernel/libc/sys/cdefs.h>
 #include <libkernel/libc/stddef.h>
 #include <libkernel/libc/stdbool.h>
@@ -28,5 +30,11 @@ int puts(const char*);
 
 bool print(const char*, size_t);
 int printf(const char* __restrict, ...);
+
+#elifdef __XFBU_ARCH_ARM64_IPHONEOS
+#include <stdio.h>
+#else
+#error
+#endif
 
 #endif

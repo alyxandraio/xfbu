@@ -5,7 +5,7 @@
 #include <libkernel/libc/string.h>
 #include <libkernel/libc/stdio.h>
 
-#include <libkernel/paging.h>
+#include <libkernel/archs/i686/paging.h>
 
 #include <xfbu/panic.h>
 

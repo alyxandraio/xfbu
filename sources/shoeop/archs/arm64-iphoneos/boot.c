@@ -1,4 +1,4 @@
-#include <shoeop/entry.h>
+// #include <shoeop/entry.h>
 
 #include <libkernel/libc/stdint.h>
 

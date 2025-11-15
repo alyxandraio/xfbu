@@ -6,7 +6,7 @@
 #include <libkernel/libc/limits.h>
 #include <libkernel/libc/stdio.h>
 
-#include <libkernel/multiboot.h>
+#include <libkernel/archs/i686/multiboot.h>
 #include <libkernel/array.h>
 #include <libkernel/heap.h>
 #include <libkernel/hex.h>

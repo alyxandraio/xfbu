@@ -2,7 +2,7 @@
 
 #include <libkernel/libc/stddef.h>
 
-#include <libkernel/multiboot.h>
+#include <libkernel/archs/i686/multiboot.h>
 #include <libkernel/heap.h>
 
 size_t memory_total_bytes(void) {

@@ -1,6 +1,8 @@
 #ifndef __LIBKERNEL_STDDEF_H
 #define __LIBKERNEL_STDDEF_H 1
 
+#if defined(__XFBU_ARCH_I686)
+
 #include <libkernel/libc/yvals.h>
 
 #define NULL _NULL
@@ -17,5 +19,11 @@ typedef _Wchart wchar_t;
 #endif
 
 typedef _Ptrdifft ptrdiff_t;
+
+#elif defined(__XFBU_ARCH_ARM64_IPHONEOS)
+#include <stddef.h>
+#else
+#error
+#endif
 
 #endif

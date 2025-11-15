@@ -2,8 +2,8 @@
 
 #include <libkernel/libc/stddef.h>
 
+#include <libkernel/archs/i686/multiboot.h>
 #include <libkernel/xfbu/info.h>
-#include <libkernel/multiboot.h>
 #include <libkernel/memory.h>
 #include <libkernel/heap.h>
 #include <libkernel/asm.h>

@@ -1,0 +1,47 @@
+BUILD_DIR?=build
+LIB_DIR?=../libkernel/include
+
+ASM=nasm
+ASMFLAGS=-f elf
+
+LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
+CC=/home/alyxandra/opt/ios-arm64e-clang-toolchain/bin/clang
+OBJCOPY=/home/alyxandra/opt/ios-arm64e-clang-toolchain/bin/llvm-objcopy
+CFLAGS=--target=arm64-apple-ios12.0 -D__XFBU_ARCH_ARM64_IPHONEOS -ffreestanding -nostdlibinc -fno-blocks -U__nonnull -DTARGET_OS_OSX=0 -DTARGET_OS_MACCATALYST=0 -D_GNU_SOURCE -D__DYNAMIC_REENT__ -DDER_TAG_SIZE=8 -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ../xfbu/include -I ../../pongoOS/newlib/aarch64-none-darwin/include
+
+LD=$(CC)
+LDFLAGS=--target=arm64-apple-ios12.0 -nostdlib -Wl,-dead_strip -Wl,-Z -static -L ../../pongoOS/newlib/aarch64-none-darwin/fixup -lc -Wl,-preload -Wl,-no_uuid -Wl,-e,start -Wl,-order_file,../../pongoOS/src/sym_order.txt -Wl,-image_base,0x100000000 -Wl,-merge_zero_fill_sections -Wl,-sectalign,__DATA,__zerofill,0x8 -Wl,-segalign,0x4000
+
+HEADERS_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.h' -print)
+SOURCES_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.c' -print)
+SOURCES_ASM:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.asm' -print)
+
+OBJECTS_C=$(patsubst %.c, $(BUILD_DIR)/xfbu/c/%.o, $(SOURCES_C))
+OBJECTS_ASM=$(patsubst %.asm, $(BUILD_DIR)/xfbu/asm/%.o, $(SOURCES_ASM))
+OBJECTS_LIBKERNEL:=$(shell find $(BUILD_DIR)/libkernel/. -type f -name '*.o' -print)
+OBJECTS_SHOEOP:=$(shell find $(BUILD_DIR)/shoeop/. -type f -name '*.o' -print)
+OBJECTS_PONGO:=$(shell find $(BUILD_DIR)/pongo/. -type f -name '*.o' -print)
+
+HEADERS_ARM64_IPHONEOS_C:=$(shell find . -type f -regex '.*/archs/arm64-iphoneos/.*\.h')
+SOURCES_ARM64_IPHONEOS_C:=$(shell find . -type f -regex '.*/archs/arm64-iphoneos/.*\.c')
+SOURCES_ARM64_IPHONEOS_ASM:=$(shell find -type f -regex '.*/archs/arm64-iphoneos/.*\.asm')
+
+OBJECTS_ARM64_IPHONEOS_C=$(patsubst %.c, $(BUILD_DIR)/xfbu/c/%.o, $(SOURCES_ARM64_IPHONEOS_C))
+OBJECTS_ARM64_IPHONEOS_ASM=$(patsubst %.asm, $(BUILD_DIR)/xfbu/asm/%.o, $(SOURCES_ARM64_IPHONEOS_ASM))
+
+.PHONY: kernel
+
+kernel: $(BUILD_DIR)/xfbu-arm64_iphoneos.bin
+
+$(BUILD_DIR)/xfbu/c/%.o: %.c $(HEADERS_C) $(HEADERS_ARM64_IPHONEOS_C)
+	mkdir -p $(@D)
+	$(CC) $(CFLAGS) -c $< -o $@
+	# $(OBJCOPY) --prefix-symbols=_ $@
+
+$(BUILD_DIR)/xfbu/asm/%.o: %.asm
+	mkdir -p $(@D)
+	$(ASM) $(ASMFLAGS) -o $@ $<
+	# $(OBJCOPY) --prefix-symbols=_ $@
+
+$(BUILD_DIR)/xfbu-arm64_iphoneos.bin: $(OBJECTS_ASM) $(OBJECTS_C) $(OBJECTS_ARM64_IPHONEOS_ASM) $(OBJECTS_ARM64_IPHONEOS_C)
+	$(LD) $(LDFLAGS) -o $@ $^ $(OBJECTS_LIBKERNEL) $(OBJECTS_SHOEOP) $(OBJECTS_PONGO)

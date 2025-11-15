@@ -2,10 +2,10 @@
 
 #include <xfbu/panic.h>
 
+#include <libkernel/archs/i686/multiboot.h>
+#include <libkernel/archs/i686/bda.h>
 #include <libkernel/xfbu/info.h>
-#include <libkernel/multiboot.h>
 #include <libkernel/asm.h>
-#include <libkernel/bda.h>
 #include <libkernel/hex.h>
 
 #include <libkernel/libc/stdint.h>

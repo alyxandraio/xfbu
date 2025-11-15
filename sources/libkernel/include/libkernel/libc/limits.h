@@ -1,6 +1,8 @@
 #ifndef __LIBKERNEL_LIMITS_H
 #define __LIBKERNEL_LIMITS_H
 
+#if defined(__XFBU_ARCH_I686)
+
 #include <libkernel/libc/yvals.h>
 
 #define CHAR_BIT 8
@@ -20,5 +22,11 @@
 #define SHRT_MAX 32767
 #define SHRT_MIN -32768
 #define USHRT_MAX 65535
+
+#elif defined(__XFBU_ARCH_ARM64_IPHONEOS)
+#include <limits.h>
+#else
+#error
+#endif
 
 #endif

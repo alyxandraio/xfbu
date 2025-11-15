@@ -1,6 +1,8 @@
 #ifndef __LIBKERNEL_STRING_H
 #define __LIBKERNEL_STRING_H 1
 
+#ifdef __XFBU_ARCH_I686
+
 #include <libkernel/libc/sys/cdefs.h>
 
 #include <libkernel/libc/stddef.h>
@@ -14,5 +16,11 @@ char* strcpy(char*, const char*);
 char* strncpy(char*, const char*, size_t);
 int strcmp(const char*, const char*);
 int strncmp(const char*, const char*, size_t);
+
+#elifdef __XFBU_ARCH_ARM64_IPHONEOS
+#include <string.h>
+#else
+#error
+#endif
 
 #endif

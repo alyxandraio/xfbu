@@ -1,4 +1,4 @@
-#include <libkernel/bda.h>
+#include <libkernel/archs/i686/bda.h>
 
 #include <libkernel/libc/stdint.h>
 
