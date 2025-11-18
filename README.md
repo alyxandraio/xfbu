@@ -14,6 +14,8 @@ own design and were keyed in by hand.
 AI was not used to generate any part of the code in this repository whatsoever,
 however, it is occasionally used as a "better Google" when researching new technologies.
 
+Kindly refrain from opening pull requests which contain content authored by any sort of language model.
+
 ## Credits
 
 * [Limine](https://codeberg.org/Limine/Limine) team and contributors
