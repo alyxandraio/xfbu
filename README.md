@@ -8,7 +8,7 @@ the xfbu operating system.
 
 ## On use of LLMs
 
-All source files, excluding submodules of course, are entirely of my
+All source files packaged herein, excluding submodules of course, are entirely of my
 own design and were keyed in by hand.
 
 AI was not used to generate any part of the code in this repository whatsoever,
