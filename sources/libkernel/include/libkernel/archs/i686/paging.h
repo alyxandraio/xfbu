@@ -3,6 +3,6 @@
 
 #include <libkernel/libc/stdint.h>
 
-extern uint32_t** page_directory;
+extern uint32_t*** page_directory;
 
 #endif

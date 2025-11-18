@@ -96,13 +96,15 @@ extern paging_preprint
 extern paging_postprint
 paging_enable:
     call paging_preprint
-    call populate_cr3
-    mov cr3, eax
     mov eax, cr4
     ; disable PAE and PSE;
     ; PSE enables 4 MiB pages
     and eax, 0xffffffcf
     mov cr4, eax
+    call populate_cr3
+    ; disable PWT and PCD on paging structure
+    and eax, 0xffffffe7
+    mov cr3, eax
     mov eax, cr0
     ; enable paging
     or eax, 0x80000000
@@ -142,7 +144,7 @@ xfbu_entry:
     call gdt_load
     ;call idt_load
 
-    ;call paging_enable
+    call paging_enable
 
     call kernel_main
 

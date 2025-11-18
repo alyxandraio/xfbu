@@ -27,12 +27,13 @@
 #ifndef PONGOH
 #define PONGOH
 #include <mach-o/loader.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <strings.h>
-#include <paleinfo.h>
+#include <stdbool.h>
+#include <libkernel/libc/stddef.h>
+#include <libkernel/libc/stdint.h>
+// #include <stdio.h>
+#include <libkernel/libc/string.h>
+// #include <strings.h>
+// #include <paleinfo.h>
 
 #ifdef PONGO_PRIVATE
 #include "framebuffer/fb.h"
@@ -444,7 +445,6 @@ extern void command_puts(const char* val);
 
 extern void pongo_syscall_entry(struct task* task, uint32_t sysnr, uint64_t* state);
 extern uint64_t vatophys_force(uint64_t kvaddr);
-#ifdef PONGO_PRIVATE
 #define STDOUT_BUFLEN 0x1000
 extern volatile uint8_t command_in_progress;
 extern void set_stdout_blocking(bool block);
@@ -472,8 +472,7 @@ extern void lowlevel_setup(uint64_t phys_off, uint64_t phys_size);
 extern void map_full_ram(uint64_t phys_off, uint64_t phys_size);
 extern uint64_t linear_kvm_alloc(uint32_t size);
 extern void _command_register_internal(const char* name, const char* desc, void (*cb)(const char* cmd, char* args), bool hidden);
-static inline _Bool is_16k(void)
-{
+bool is_16k(void) {
     return ((get_mmfr0() >> 20) & 0xf) == 0x1;
 }
 static inline void flush_tlb(void)
@@ -484,7 +483,5 @@ static inline void flush_tlb(void)
 }
 extern void task_real_unlink(struct task* task);
 #include "hal/hal.h"
-
-#endif
 
 #endif
