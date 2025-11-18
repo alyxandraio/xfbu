@@ -5,7 +5,7 @@ ASMFLAGS=-f elf
 
 LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
 CC=clang
-CFLAGS=-target i686-none-elf -D__XFBU_ARCH_I686 -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ../xfbu/include
+CFLAGS=-target i686-none-elf -D__XFBU_ARCH_I686 -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ../xfbu/include -I include
 
 HEADERS_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.h' -print)
 SOURCES_C:=$(shell find . -path '*/archs/*' -prune -o -type f -name '*.c' -print)

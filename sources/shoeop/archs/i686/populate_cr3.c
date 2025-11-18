@@ -10,35 +10,36 @@
 
 #include <xfbu/panic.h>
 
-void virtual_map_4mib_aligned(uint16_t index_4mib, )
-
 void identity_map_4mib_aligned(uint16_t index_4mib) {
     if (index_4mib > 1023)
-        panic("__identity_map_4mib_aligned: page dir index out of bounds");
+        panic("__identity_map_4mib_aligned: page directory index out of bounds");
     size_t heap_end = (size_t) (heap_ptr + heap_vector);
     size_t needed = 0x1000 - (heap_end % 0x1000);
     forcibly_advance_vector = true;
     void* temp_alloc = (void*) 0;
-    if (needed > 0)
+    if (needed > 0 && needed < 0x1000)
         temp_alloc = malloc(needed);
-    uint32_t* identity_map = (uint32_t*) malloc(0x1000);
+    uint32_t** identity_map = (uint32_t**) malloc(0x1000);
     forcibly_advance_vector = false;
-    if (needed > 0)
+    if (needed > 0 && needed < 0x1000)
         free(temp_alloc);
-    if (identity_map % 0x1000 != 0 || heap_vector % 0x1000 != 0)
-        panic_failout("__identity_map_4mib_aligned: invalid heap allocation");
+    if ((uint32_t) identity_map % 0x1000 != 0 || heap_vector % 0x1000 != 0)
+        panic("__identity_map_4mib_aligned: invalid heap allocation");
 
     memset(identity_map, 0, 0x1000);
-    page_directory[index_4mib] = (uint32_t**) identity_map;
+    page_directory[index_4mib] = identity_map;
     // present; write enabled; supervisor; 4KiB pages
-    page_directory[index_4mib] &= 0xffffff43;
+    page_directory[index_4mib] = (uint32_t**) (0x3 | ((uint32_t) page_directory[index_4mib]));
+    page_directory[index_4mib] = (uint32_t**) (0xffffff43 & ((uint32_t) page_directory[index_4mib]));
+
     const size_t four_mib = 4096 * 1024;
     size_t lower_bound = index_4mib * four_mib;
     // size_t upper_bound = lower_bound + four_mib;
     for (size_t index = 0; index < 1024; index += 1) {
         identity_map[index] = (uint32_t*) (0x1000*index + lower_bound);
         // present; write enabled; supervisor; non-global
-        identity_map[index] &= 0xfffffe03;
+        identity_map[index] = (uint32_t*) (0x3 | ((uint32_t) identity_map[index]));
+        identity_map[index] = (uint32_t*) (0xfffffe03 & ((uint32_t) identity_map[index]));
     }
 }
 
@@ -46,17 +47,20 @@ size_t populate_cr3(void) {
     size_t heap_end = (size_t) (heap_ptr + heap_vector);
     size_t needed = 0x1000 - (heap_end % 0x1000);
     forcibly_advance_vector = true;
-    void* temp_alloc = malloc(needed);
+    void* temp_alloc = (void*) 0;
+    if (needed > 0 && needed < 0x1000)
+        temp_alloc = malloc(needed);
     uint32_t*** page_dir = (uint32_t***) malloc(0x1000);
     forcibly_advance_vector = false;
-    free(temp_alloc);
-    if (page_dir % 0x1000 != 0 || heap_vector % 0x1000 != 0)
-        panic_failout("__populate_cr3: invalid heap allocation");
+    if (needed > 0 && needed < 0x1000)
+        free(temp_alloc);
+    if ((uint32_t) page_dir % 0x1000 != 0 || heap_vector % 0x1000 != 0)
+        panic("__populate_cr3: invalid heap allocation");
 
     page_directory = page_dir;
     memset(page_directory, 0, 0x1000);
 
-    for (size_t index = 0; index < 128; index += 1)
+    for (size_t index = 0; index < 1024; index += 1)
         identity_map_4mib_aligned(index);
 
     return (size_t) page_directory;

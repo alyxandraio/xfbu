@@ -82,14 +82,14 @@ void i686_regs_print(void) {
     printf("    %u KiB / %u MiB\n", hw_rsrvd, memory_total);
     printf("    kernel executable\n");
     printf("    %u KiB / %u MiB\n", krnl_exec, memory_total);
-    printf("    stack memory\n");
-    printf("    %u bytes / %u MiB\n", stack_used, memory_total);
+    // printf("    stack memory\n");
+    // printf("    %u bytes / %u MiB\n", stack_used, memory_total);
     printf("    heap memory\n");
-    printf("    %u bytes / %u MiB\n", heap_used, memory_total);
-    printf("    heap memory reserved\n");
-    printf("    %u KiB / %u MiB\n", internal_heap_vector / 1024, memory_total);
-    printf("    heap memory total\n");
-    printf("    %u KiB / %u MiB\n", heap_size / 1024, memory_total);
+    printf("    %u KiB / %u KiB\n", heap_used / 1024, heap_size / 1024);
+    // printf("    heap memory reserved\n");
+    // printf("    %u KiB / %u MiB\n", internal_heap_vector / 1024, memory_total);
+    // printf("    heap memory total\n");
+    // printf("    %u KiB / %u MiB\n", heap_size / 1024, memory_total);
     printf("    composite\n");
     printf("    %u KiB / %u MiB\n", memory_used, memory_total);
 

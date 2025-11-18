@@ -6,7 +6,7 @@ ASMFLAGS=-f elf
 
 LIBGCC_PATH?=/home/alyxandra/opt/cross/lib/gcc/i686-elf/15.2.0
 CC=clang
-CFLAGS=-target i686-none-elf -D__XFBU_ARCH_I686 -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ./include
+CFLAGS=-target i686-none-elf -D__XFBU_ARCH_I686 -ffreestanding -nostdlib -std=c99 -fno-omit-frame-pointer -g -I ../libkernel/include -I ./include -I ../shoeop/include
 
 LD=ld.lld
 LDFLAGS=-m elf_i386 -T linker/i686.ld -nostdlib

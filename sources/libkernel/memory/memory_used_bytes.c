@@ -31,15 +31,14 @@ size_t memory_used_bytes(void) {
     // hardware reserved
     memory += 0x00060000;
     // add kernel executable size
-    // TODO: determine the kernel size
-    // from the symbol table somehow
     memory += XFBU_BINARY_SIZE == 0 ? 1024 * 1024 : XFBU_BINARY_SIZE;
     // add heap size
-    memory += alloc_pool->vector * sizeof(void**);
-    memory += alloc_pool_lengths->vector * sizeof(size_t*);
-    memory += alloc_vectors->vector * sizeof(size_t*);
-    memory += free_vectors->vector * sizeof(size_t*);
-    memory += heap_vector - internal_heap_vector;
+    memory += heap_vector;
+    // memory += alloc_pool->vector * sizeof(void**);
+    // memory += alloc_pool_lengths->vector * sizeof(size_t*);
+    // memory += alloc_vectors->vector * sizeof(size_t*);
+    // memory += free_vectors->vector * sizeof(size_t*);
+    // memory += heap_vector - internal_heap_vector;
     // add used stack memory
     const uint8_t* stack_end = (const uint8_t*) (uintptr_t) &stack_top[0];
     memory += (size_t) stack_end - reg_esp();

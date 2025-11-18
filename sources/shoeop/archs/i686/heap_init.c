@@ -1,3 +1,5 @@
+#include <shoeop/shoeop.h>
+
 #include <libkernel/archs/i686/multiboot.h>
 #include <libkernel/heap.h>
 #include <libkernel/asm.h>
@@ -10,6 +12,7 @@
 #include <xfbu/panic.h>
 
 void heap_init(void) {
+    within_shoeop_process = true;
     if (!multiboot_valid)
         abort();
     const char* s1 = ":: heap initialisation...";
@@ -131,4 +134,5 @@ void heap_init(void) {
     heap_valid = true;
     printf(" OK\n");
     internal_heap_vector = heap_vector;
+    within_shoeop_process = false;
 }

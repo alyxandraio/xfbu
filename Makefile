@@ -25,7 +25,7 @@ arm64-iphoneos: clean xfbu_arm64-iphoneos
 
 clean:
 	rm -f limine/limine
-	rm -f xfbu.iso
+	rm -f xfbu-i686.iso
 	rm -rf build/
 	rm -rf iso_root/
 	rm -rf sources/shoeop/build/

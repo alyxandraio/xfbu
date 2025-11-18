@@ -82,6 +82,7 @@ idt_load:
     cli
     lidt [idt_desc]
     call idt_postprint
+    ret
 
 idt_start:
     ; something
@@ -112,8 +113,11 @@ paging_enable:
     and eax, 0xfffeffff
     mov cr0, eax
     call paging_postprint
+    ret
 
 global xfbu_entry
+extern set_within_shoeop
+extern reset_within_shoeop
 extern xfbu_header_tx
 extern multiboot_check
 extern multiboot_init
@@ -123,6 +127,7 @@ xfbu_entry:
     mov esp, stack_top
 
     push eax
+
     mov eax, 3405691582
     mov dr0, eax
     mov eax, 3735928559
@@ -146,6 +151,7 @@ xfbu_entry:
 
     call paging_enable
 
+    call reset_within_shoeop
     call kernel_main
 
     cli
