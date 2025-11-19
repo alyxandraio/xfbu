@@ -72,11 +72,12 @@ void i686_regs_print(void) {
     stack_used = (size_t) stack_end - reg_esp();
 
     size_t heap_used = 0;
-    heap_used += alloc_pool->vector * sizeof(void**);
-    heap_used += alloc_pool_lengths->vector * sizeof(size_t*);
-    heap_used += alloc_vectors->vector * sizeof(size_t*);
-    heap_used += free_vectors->vector * sizeof(size_t*);
-    heap_used += heap_vector - internal_heap_vector;
+    // heap_used += alloc_pool->vector * sizeof(void**);
+    // heap_used += alloc_pool_lengths->vector * sizeof(size_t*);
+    // heap_used += alloc_vectors->vector * sizeof(size_t*);
+    // heap_used += free_vectors->vector * sizeof(size_t*);
+    // heap_used += heap_vector - internal_heap_vector;
+    heap_used += heap_vector;
 
     printf("    hardware reserved\n");
     printf("    %u KiB / %u MiB\n", hw_rsrvd, memory_total);
