@@ -6,6 +6,11 @@ the xfbu operating system.
 
 `make clang lld xorriso cctools palera1n`
 
+## Available architectures
+
+* i686 (x86)
+* arm64-iphoneos (low priority; currently non-functional)
+
 ## On use of LLMs
 
 All source files packaged herein, excluding submodules of course, are entirely of my
