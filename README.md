@@ -21,7 +21,8 @@ however, it is occasionally used as a "better Google" when researching new techn
 or as an assistant in locating precise locations of bugs / logical errors in already existing code.
 That being said, once the bug / mistake has been identified, the solution and remediation
 are then devised organically and are also, like everything else, keyed in by hand. I have
-found these to be effective boundaries to set around use of AI and (agentic) LLM tools.
+found these to be effective boundaries to set around use of AI and (agentic) LLM tools as
+it pertains to software engineering.
 
 Kindly refrain from opening pull requests which contain content authored by any sort of language model.
 
